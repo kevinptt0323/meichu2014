@@ -10,15 +10,22 @@ body { font-size: 14pt; }
 	display: block;
 	width: 100%;
 	margin: 0px;
-	padding-left: 30px;
 	z-index: 9;
 	box-shadow: 0 0 10px #666;
 	border-radius: 0;
 }
 
-#header .ui.header {
-	display: inline-block;
-	margin: 0;
+#header {
+	background: #fc9;
+}
+
+.ui.huge.menu .item {
+	font-size: 14pt;
+}
+
+#header > .item:first-child {
+	padding-left: 100px;
+	padding-right: 100px;
 }
 
 .index.section .title {
