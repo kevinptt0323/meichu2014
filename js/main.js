@@ -1,9 +1,33 @@
 var index = {
 	init : function() {
-		$("#header .ui.dropdown.item")
+		$("#Nav .ui.dropdown.item")
 			.dropdown({ on: 'hover' })
 		;
 		store.init();
+		fullpage.init(semantic.ready);
+		$("body").css("overflow", "hidden");
+	}
+}
+var fullpage = {
+	init: function(callback) {
+		$('#fullpage').fullpage({
+				//navigation
+				'anchors': ['index', 'store', 'page3'],
+				'sectionsColor': ['#ccc','#ffc', '#fcf'],
+				'scrollBar': true,
+
+				//scrolling
+				'css3': true,
+				'scrollingSpeed': 500,
+				'scrollOverflow': true,
+
+				//design
+				'resize': false,
+				'paddingTop': '40px',
+
+				//events
+				'afterRender' : callback
+			});
 	}
 }
 var store = {

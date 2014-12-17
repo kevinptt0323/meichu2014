@@ -14,32 +14,17 @@
 		<script src="js/jquery.slimscroll.min.js"></script>
 		<script src="js/jquery.fullPage.min.js"></script>
 		<script src="js/semantic.min.js"></script>
+		<script src="js/waypoints.js"></script>
+		<script src="js/scroll.js"></script>
 		<script src="js/main.js"></script>
 		<link rel="stylesheet" href="css/normalize.css" />
 		<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
 		<link rel="stylesheet" href="css/jquery.fullPage.css" />
 		<link rel="stylesheet" href="css/semantic.min.css" />
 		<link rel="stylesheet" href="css/style.css" />
-		<script type="text/javascript">
-			$(document).ready(function() {
-				$('#fullpage').fullpage({
-						'sectionsColor': ['#ccc','#ffc'],
-						'anchors': ['index', 'store'],
-						'scrollOverflow': true,
-						'css3': true,
-						'resize': false,
-						'paddingTop': '40px'
-					});
-			});
-		</script>
 	</head>
 	<body>
-		<!--
-		<div class="ui inverted yellow basic secondary segment" id="header">
-			<h2 class="ui orange header">Header</h2>
-		</div>
-		-->
-		<div class="ui huge secondary pointing orange tiered menu" id="header">
+		<div class="ui huge secondary pointing orange tiered menu peek" id="Nav">
 			<a class="orange item" href="#index"> <i class="home icon"></i> Header </a>
 			<div class="right menu">
 				<a class="item" href="#store">
@@ -48,9 +33,9 @@
 				<div class="ui dropdown item">
 					<i class="mail icon"></i> Messages
 					<div class="menu">
-						<a class="item"><i class="edit icon"></i> Subpage 1</a>
-						<a class="item"><i class="globe icon"></i> Subpage 2</a>
-						<a class="item"><i class="settings icon"></i> Subpage 3</a>
+						<a class="item" href="#page3"><i class="edit icon"></i> Subpage 1</a>
+						<a class="item" href="#page3/1"><i class="globe icon"></i> Subpage 2</a>
+						<a class="item" href="#page3/2"><i class="settings icon"></i> Subpage 3</a>
 					</div>
 				</div>
 			</div>
@@ -65,6 +50,29 @@
 			</div>
 			<div class="store section">
 				<div class="ui doubling cards" id="products"> </div>
+			</div>
+			<div class="index section">
+				<div class="slide">
+					<div class="ui basic compact segment title">
+						<h1 class="ui header">Slide</h1>
+						<div class="ui inverted divider"></div>
+						<h2>Page 0</h2>
+					</div>
+				</div>
+				<div class="slide">
+					<div class="ui basic compact segment title">
+						<h1 class="ui header">Slide</h1>
+						<div class="ui inverted divider"></div>
+						<h2>Page 1</h2>
+					</div>
+				</div>
+				<div class="slide">
+					<div class="ui basic compact segment title">
+						<h1 class="ui header">Slide</h1>
+						<div class="ui inverted divider"></div>
+						<h2>Page 2</h2>
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>

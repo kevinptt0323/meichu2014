@@ -5,7 +5,7 @@ body { font-size: 14pt; }
 	background: #999;
 }
 
-#header, #footer {
+#Nav{
 	position: fixed;
 	display: block;
 	width: 100%;
@@ -13,9 +13,6 @@ body { font-size: 14pt; }
 	z-index: 9;
 	box-shadow: 0 0 10px #666;
 	border-radius: 0;
-}
-
-#header {
 	background: #fc9;
 }
 
@@ -23,7 +20,7 @@ body { font-size: 14pt; }
 	font-size: 14pt;
 }
 
-#header > .item:first-child {
+#Nav > .item:first-child {
 	padding-left: 100px;
 	padding-right: 100px;
 }
