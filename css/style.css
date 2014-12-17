@@ -8,7 +8,6 @@ body { font-size: 14pt; }
 #header, #footer {
 	position: fixed;
 	display: block;
-	height: 50px;
 	width: 100%;
 	margin: 0px;
 	padding: 0 30px;
@@ -22,6 +21,12 @@ body { font-size: 14pt; }
 	line-height: 50px;
 }
 
-.store.section { padding: 0 50px; }
-
+.index.section .title {
+	margin: auto;
+	text-align: center;
+	width: 400px;
+}
+.index.section h1 { font-size: 5em; }
+.index.section h2 { font-size: 2em; }
+.store.section .cards { padding: 10px 50px 0; }
 .store.section .card .price:before { content: "$" }
