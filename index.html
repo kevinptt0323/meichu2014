@@ -23,18 +23,26 @@
 		<script type="text/javascript">
 			$(document).ready(function() {
 				$('#fullpage').fullpage({
-						sectionsColor: ['transparent'],
-						anchors: [''],
-						css3: true,
-						resize: false
+						'sectionsColor': ['#ccc','#ffc'],
+						'anchors': [''],
+						'scrollOverflow': true,
+						'css3': true,
+						'resize': false,
+						'paddingTop': '50px',
+						'paddingBottom': '50px'
 					});
 			});
 		</script>
 	</head>
 	<body>
+		<div class="ui inverted yellow basic secondary segment" id="header">
+			<h2 class="ui orange header">Header</h2>
+		</div>
 		<div id="fullpage">
 			<div class="store section">
 				<div class="ui doubling cards" id="products"> </div>
+			</div>
+			<div class="section">
 			</div>
 		</div>
 	</body>
