@@ -1,0 +1,27 @@
+body { font-size: 14pt; }
+
+*::-moz-selection {
+	color: #fff;
+	background: #999;
+}
+
+#header, #footer {
+	position: fixed;
+	display: block;
+	height: 50px;
+	width: 100%;
+	margin: 0px;
+	padding: 0 30px;
+	z-index: 9;
+	box-shadow: 0 0 10px #666;
+	border-radius: 0;
+}
+
+#header .ui.header {
+	margin-top: 0;
+	line-height: 50px;
+}
+
+.store.section { padding: 0 50px; }
+
+.store.section .card .price:before { content: "$" }
