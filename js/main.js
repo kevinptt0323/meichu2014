@@ -1,3 +1,11 @@
+var index = {
+	init : function() {
+		$("#header .ui.dropdown.item")
+			.dropdown({ on: 'hover' })
+		;
+		store.init();
+	}
+}
 var store = {
 	data : [
 		{
@@ -46,6 +54,4 @@ var store = {
 		}
 	}
 };
-$(function() {
-	store.init();
-});
+$(index.init);
