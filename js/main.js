@@ -101,7 +101,10 @@ nav.init = function() {
 		}
 	});
 
-	$("#Nav .ui.dropdown.item").dropdown({ on: 'hover' });
+	$("#Nav .ui.dropdown.item").dropdown({
+		on: 'hover',
+		className : { active : 'myActive' }
+	});
 	$peekItem.removeClass('active').eq( 0 ).addClass('active');
 };
 $(index.init);
