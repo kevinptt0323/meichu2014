@@ -24,21 +24,25 @@ body {
 .ui.huge.menu .item {
 	font-size: 14pt;
 }
+
+@media screen and (min-width: 768px) {
 #Nav > .item:first-child {
 	padding-left: 100px;
 	padding-right: 100px;
+}
 }
 
 .section {
 	overflow: hidden;
 }
-.index.section .title {
+.center.title {
 	margin: auto;
 	text-align: center;
 	width: 70%;
 }
-.index.section h1 { font-size: 3.5em; }
-.index.section h2 { font-size: 2em; }
+.center.title h1 { font-size: 3.5em; }
+.center.title h2 { font-size: 2em; }
+.ui.center.top.pointing.dropdown > .menu { margin-top: 1em; }
 .store.section .cards { padding: 10px 50px 0; }
 .store.section .price:before { content: "$" }
 .store.section .special.meta .price:not(.special) { text-decoration: line-through;  }
