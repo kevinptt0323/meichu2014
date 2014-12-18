@@ -15,12 +15,14 @@ fullpage.init = function(callback) {
 	$('#fullpage').fullpage({
 			//navigation
 			'anchors': ['index', 'store', 'page3'],
-			'sectionsColor': ['#ccc','#ffc', '#fcf'],
+			//'sectionsColor': ['transparent','transparent', 'transparent'],
+			'sectionsColor': ['rgba(200, 200, 200, 0.6)','rgba(255, 255, 200, 0.4)', 'rgba(255, 200, 255, 0.4)'],
 			'scrollBar': true,
 
 			//scrolling
 			'css3': true,
-			'scrollingSpeed': 500,
+			'easing': 'easeOutBounce',
+			'scrollingSpeed': 1000,
 			'scrollOverflow': true,
 
 			//design
@@ -41,6 +43,7 @@ store.initProducts = function() {
 		{
 			"name"  : "Product 1",
 			"src" : "images/product/2.png",
+			"price" : "100",
 			"price" : "100",
 			"description" : "This is product 1"
 		},
@@ -103,6 +106,7 @@ nav.init = function() {
 
 	$("#Nav .ui.dropdown.item").dropdown({
 		on: 'hover',
+		transition : 'fade',
 		className : { active : 'myActive' }
 	});
 	$peekItem.removeClass('active').eq( 0 ).addClass('active');

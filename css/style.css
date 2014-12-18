@@ -1,4 +1,9 @@
-body { font-size: 14pt; }
+body {
+	font-size: 14pt;
+	background-image: url('http://www.photops.com/Photo/UpPhoto2010/201106/2011060409214653.jpg');
+	background-size: cover;
+	background-attachment: fixed;
+}
 
 *::-moz-selection {
 	color: #fff;
