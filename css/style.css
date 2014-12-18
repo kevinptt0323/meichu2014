@@ -5,6 +5,7 @@ body { font-size: 14pt; }
 	background: #999;
 }
 
+/* Nav bar */
 #Nav{
 	position: fixed;
 	display: block;
@@ -13,18 +14,19 @@ body { font-size: 14pt; }
 	z-index: 9;
 	box-shadow: 0 0 10px #666;
 	border-radius: 0;
-	background: #fc9;
+	background: #fda;
 }
-
 .ui.huge.menu .item {
 	font-size: 14pt;
 }
-
 #Nav > .item:first-child {
 	padding-left: 100px;
 	padding-right: 100px;
 }
 
+.section {
+	overflow: hidden;
+}
 .index.section .title {
 	margin: auto;
 	text-align: center;
