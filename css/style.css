@@ -1,6 +1,6 @@
 body {
 	font-size: 14pt;
-	background-image: url('http://www.photops.com/Photo/UpPhoto2010/201106/2011060409214653.jpg');
+	background-image: url('images/bg.jpg');
 	background-size: cover;
 	background-attachment: fixed;
 }
@@ -46,5 +46,5 @@ body {
 .store.section .cards { padding: 10px 50px 0; }
 .store.section .price:before { content: "$" }
 .store.section .special.meta .price:not(.special) { text-decoration: line-through;  }
-.store.section .special.meta .special.price { color: #f00  }
+.store.section .special.meta .special.price { color: #f00; font-weight: bold;  }
 .store.section .meta:not(.special) .special.price { display: none; }
