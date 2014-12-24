@@ -43,8 +43,11 @@ body {
 .center.title h1 { font-size: 3.5em; }
 .center.title h2 { font-size: 2em; }
 .ui.center.top.pointing.dropdown > .menu { margin-top: 1em; }
-.store.section .cards { padding: 10px 50px 0; }
-.store.section .price:before { content: "$" }
-.store.section .special.meta .price:not(.special) { text-decoration: line-through;  }
-.store.section .special.meta .special.price { color: #f00; font-weight: bold;  }
-.store.section .meta:not(.special) .special.price { display: none; }
+.cards { padding: 10px 50px 0; }
+.card { cursor: pointer; }
+.price:before { content: "$" }
+.special.meta .price:not(.special) { text-decoration: line-through;  }
+.special.meta .special.price { color: #f00; font-weight: bold;  }
+.meta:not(.special) .special.price { display: none; }
+.ui.basic.modal > .content > .description > .ui.header { color: #fff; }
+.ui.modal > .content > .description > .segment { margin: .5rem 0; }
