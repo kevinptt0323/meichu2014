@@ -8,16 +8,12 @@ if( $mysqli->connect_error ) {
 else {
 	$ret["errcode"] = 0;
 	$query = "SELECT * FROM `Products` ORDER BY `pid` ASC";
-	$res = $mysqli->query($query);
+	$data = $mysqli->query($query);
 	$ret["products"] = array();
-	while( $row = $res->fetch_array() ){
-		while( $field = $res->fetch_field() ) {
-			if( $row[$field->name] )
-				$tmp[$field->name] = $row[$field->name];
-		}
-		array_push($ret["products"], $tmp);
+	foreach($data as $row) {
+		array_push($ret["products"], $row);
 	}
-	$res->free();
+	$data->free();
 }
 echo json_encode($ret);
 ?>
