@@ -23,10 +23,10 @@ store.initProducts = function() {
 	});
 },
 store.makeStore = function() {
-	var template = '<div class="card" data-id="{{id}}"> <div class="dimmable image"> <div class="ui dimmer"> <div class="content"> <div class="center"> <div class="ui inverted button add"><i class="plus icon"></i>Add To Cart</div> </div> </div> </div> <img src="{{src}}"> </div> <div class="content"> <div class="header">{{name}}</div> <div class="meta"> <span class="price">{{price}}</span> <span class="special price">{{special}}</span> </div> <div class="description">{{description}}</div> </div> </div>';
+	var template = '<div class="card" data-pid="{{pid}}"> <div class="dimmable image"> <div class="ui dimmer"> <div class="content"> <div class="center"> <div class="ui inverted button view"><i class="zoom icon"></i>View</div> </div> </div> </div> <img src="{{src}}"> </div> <div class="content"> <div class="header">{{name}}</div> <div class="meta ui tag label"> <span class="price">{{price}}</span> <span class="special price">{{special}}</span> </div> <div class="description">{{description}}</div> </div> </div>';
 	for(var i=0; i<this.data.length; i++) {
 		var newItem = template.replace("{{name}}", this.data[i].name)
-			.replace("{{id}}", this.data[i].id)
+			.replace("{{pid}}", this.data[i].pid)
 			.replace("{{src}}", this.data[i].src)
 			.replace("{{price}}", this.data[i].price)
 			.replace("{{special}}", this.data[i].special || "" )
@@ -38,19 +38,23 @@ store.makeStore = function() {
 	$(".dimmable.image").dimmer({ on: "hover" });
 
 	var obj = this;
-	$(".add.button").on('click', function() {
-		obj.cart.add($(this).closest(".card").attr("data-id"));
+	$(".view.button").on('click', function() {
+		obj.cart.view($(this).closest(".card").attr("data-pid"));
 	});
 },
 store.cart = {
 	init : function() {
 		this.data = [];
 	},
-	add : function(id) {
-		console.log("add item to cart: " + id);
+	view : function(pid) {
+		console.log("view item: " + pid);
+		$('.modal').modal('show');
+	},
+	add : function(pid) {
+		console.log("add item to cart: " + pid);
 		var inarr = false;
 		this.data.forEach(function(value, index) {
-			if( value["id"] == id ) {
+			if( value["pid"] == pid ) {
 				value["num"]++;
 				inarr = true;
 			}
