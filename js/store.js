@@ -33,22 +33,37 @@ store.makeStore = function() {
 			.replace("{{description}}", this.data[i].description || "");
 		$("#products").append(newItem);
 		if( this.data[i].special )
-			$(".card:last-child").find(".meta").addClass("special");
+			$(".card:last-child .meta").addClass("special");
 	}
 	$(".dimmable.image").dimmer({ on: "hover" });
 
 	var obj = this;
-	$(".view.button").on('click', function() {
-		obj.cart.view($(this).closest(".card").attr("data-pid"));
+	$(".card").on('click', function() {
+		obj.view($(this).attr("data-pid"));
+	});
+},
+store.view = function(pid) {
+	console.log("view item: " + pid);
+	var template = '<i class="close icon"></i> <div class="content"> <div class="ui medium image"> <img src="{{src}}"> </div> <div class="description"> <div class="ui huge header"> {{name}} </div> <div class="ui basic segment"> {{description}} </div> <div class="ui right aligned basic segment"> <div class="meta ui huge tag label"> <span class="price"> {{price}} </span>&nbsp; <span class="special price"> {{special}} </span> </div> </div> </div> </div> <div class="ui divider"></div> <div class="actions"> <div class="ui pagination menu"> <a class="icon item"> <i class="minus icon"></i> </a> <div class="item"> <div class="ui transparent input"> <input type="text" value="0"> </div> </div> <a class="icon item"> <i class="plus icon"></i> </a> </div> <div class="ui green basic inverted button" data-pid="{{pid}}"> <i class="plus icon"></i> Add to Cart </div> </div>';
+
+	this.data.forEach(function(value, index) {
+		if( value.pid == pid ) {
+			var newItem = template.replace("{{name}}", value.name)
+				.replace("{{pid}}", value.pid)
+				.replace("{{src}}", value.src)
+				.replace("{{price}}", value.price)
+				.replace("{{special}}", value.special || "" )
+				.replace("{{description}}", value.description || "");
+			$("#product-window").html(newItem);
+			if( value.special )
+				$("#product-window .meta").addClass("special");
+			$('#product-window').modal('show');
+		}
 	});
 },
 store.cart = {
 	init : function() {
 		this.data = [];
-	},
-	view : function(pid) {
-		console.log("view item: " + pid);
-		$('.modal').modal('show');
 	},
 	add : function(pid) {
 		console.log("add item to cart: " + pid);
