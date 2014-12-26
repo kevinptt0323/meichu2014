@@ -7,11 +7,11 @@ if( $mysqli->connect_error ) {
 }
 else {
 	$ret["errcode"] = 0;
-	$query = "SELECT * FROM `Products` ORDER BY `pid` ASC";
+	$query = "SELECT * FROM `Goods` ORDER BY `gid` ASC";
 	$data = $mysqli->query($query);
-	$ret["products"] = array();
+	$ret["goods"] = array();
 	foreach($data as $row) {
-		array_push($ret["products"], $row);
+		array_push($ret["goods"], $row);
 	}
 	$data->free();
 }
