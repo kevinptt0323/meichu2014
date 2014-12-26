@@ -23,22 +23,22 @@ store.initProducts = function() {
 	});
 },
 store.makeStore = function() {
-	var card = '<div class="card" data-gid="{{gid}}"> <div class="dimmable image"> <div class="ui dimmer"> <div class="content"> <div class="center"> <div class="ui inverted button view"><i class="zoom icon"></i>View</div> </div> </div> </div> <img src="{{src}}"> </div> <div class="content"> <div class="header">{{name}}</div> <div class="meta ui tag label"> <span class="price">{{price}}</span> <span class="special price">{{special}}</span> </div> <div class="description">{{description}}</div> </div> </div>';
+	var card = '<div class="card" data-gid="{{gid}}"> <div class="dimmable image"> <div class="ui dimmer"> <div class="content"> <div class="center"> <div class="ui inverted button view"><i class="zoom icon"></i>View</div> </div> </div> </div> <img src="{{src}}"> </div> <div class="content"> <div class="header">{{name}}</div> <div class="meta ui tag label"> <span class="price">{{price}}</span> <span class="special price">{{special}}</span> </div> </div> </div>';
 	for(var i=0; i<this.data.length; i++) {
 		var newItem = card.replace("{{name}}", this.data[i].name)
 			.replace("{{gid}}", this.data[i].gid)
 			.replace("{{src}}", this.data[i].src)
 			.replace("{{price}}", this.data[i].price)
 			.replace("{{special}}", this.data[i].special || "" )
-			.replace("{{description}}", this.data[i].description || "");
 		$("#goods").append(newItem);
 		if( this.data[i].special )
 			$(".card:last-child .meta").addClass("special");
 	}
 	$(".dimmable.image").dimmer({ on: "hover" });
 
-	var gwindow = '<i class="close icon"></i> <div class="content"> <div class="ui medium image"> <img class="preview"> </div> <div class="description"> <div class="ui huge header name"> {{name}} </div> <div class="ui basic segment description"> {{description}} </div> <div class="ui right aligned basic segment"> <div class="meta ui huge tag label"> <span class="price"> {{price}} </span>&nbsp; <span class="special price"> {{special}} </span> </div> </div> </div> </div> <div class="ui divider"></div> <div class="actions"> <div class="ui pagination menu"> <a class="icon item"> <i class="minus icon"></i> </a> <div class="item"> <div class="ui transparent input"> <input type="text" value="0"> </div> </div> <a class="icon item"> <i class="plus icon"></i> </a> </div> <div class="ui green basic inverted button add-to-cart" data-gid="{{gid}}"> <i class="plus icon"></i> Add to Cart </div> </div>';
-	$("#goods-window").html(gwindow);
+	var gwindow = '<i class="close icon"></i> <div class="content"> <div class="ui medium image"> <img class="preview"> </div> <div class="description"> <div class="ui huge header name"> {{name}} </div> <div class="ui basic segment description"> {{description}} </div> <div class="ui right aligned basic segment"> <div class="meta ui huge tag label"> <span class="price"> {{price}} </span>&nbsp; <span class="special price"> {{special}} </span> </div> </div> </div> </div> <div class="ui divider"></div> <div class="actions"> <select class="ui dropdown"> </select> <div class="ui medium pagination menu"> <a class="icon item"> <i class="minus icon"></i> </a> <div class="item"> <div class="ui transparent input"> <input type="text" value="1"> </div> </div> <a class="icon item"> <i class="plus icon"></i> </a> </div> <div class="ui green basic inverted button add-to-cart" data-gid="{{gid}}"> <i class="plus icon"></i> Add to Cart </div> </div>';
+	$("#goods-window").html(gwindow)
+		.find(".ui.dropdown.sub-item").dropdown();
 
 	var obj = this;
 	$(".card").on('click', function() {
@@ -64,7 +64,14 @@ store.view = function(gid) {
 			else
 				$gwindow.find(".meta").removeClass("special");
 			if( elem["sub-item"] ) {
-				;
+				var $dd = $gwindow.find(".ui.dropdown");
+				$dd.addClass("sub-item").html("");
+				elem["sub-item"].forEach(function(sub_item) {
+					$dd.append(new Option(sub_item, sub_item));
+				});
+			}
+			else {
+				$gwindow.find(".ui.dropdown").removeClass("sub-item");
 			}
 			$gwindow.modal('show')
 				.find(".add-to-cart.button")
