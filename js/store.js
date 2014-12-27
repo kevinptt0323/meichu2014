@@ -36,9 +36,8 @@ store.makeStore = function() {
 	}
 	$(".dimmable.image").dimmer({ on: "hover" });
 
-	var gwindow = '<i class="close icon"></i> <div class="content"> <div class="ui medium image"> <img class="preview"> </div> <div class="description"> <div class="ui huge header name"> {{name}} </div> <div class="ui basic segment description"> {{description}} </div> <div class="ui right aligned basic segment"> <div class="meta ui huge tag label"> <span class="price"> {{price}} </span>&nbsp; <span class="special price"> {{special}} </span> </div> </div> </div> </div> <div class="ui divider"></div> <div class="actions"> <select class="ui dropdown"> </select> <div class="ui medium pagination menu"> <a class="icon item"> <i class="minus icon"></i> </a> <div class="item"> <div class="ui transparent input"> <input type="text" value="1"> </div> </div> <a class="icon item"> <i class="plus icon"></i> </a> </div> <div class="ui green basic inverted button add-to-cart" data-gid="{{gid}}"> <i class="plus icon"></i> Add to Cart </div> </div>';
-	$("#goods-window").html(gwindow)
-		.find(".ui.dropdown.sub-item").dropdown();
+	var gwindow = '<i class="close icon"></i> <div class="content"> <div class="ui medium image"> <img class="preview"> </div> <div class="description"> <div class="ui huge header name"> {{name}} </div> <div class="ui basic segment description"> {{description}} </div> <div class="ui right aligned basic segment"> <div class="meta ui huge tag label"> <span class="price"> {{price}} </span>&nbsp; <span class="special price"> {{special}} </span> </div> </div> </div> </div> <div class="ui divider"></div> <div class="actions"> <div id="selector"></div> <div class="ui medium pagination menu"> <a class="icon item"> <i class="minus icon"></i> </a> <div class="item"> <div class="ui transparent input"> <input type="text" value="1"> </div> </div> <a class="icon item"> <i class="plus icon"></i> </a> </div> <div class="ui green basic inverted button add-to-cart" data-gid="{{gid}}"> <i class="plus icon"></i> Add to Cart </div> </div>';
+	$("#goods-window").html(gwindow);
 
 	var obj = this;
 	$(".card").on('click', function() {
@@ -50,7 +49,7 @@ store.view = function(gid) {
 
 	$gwindow = $("#goods-window");
 	var obj = this;
-	this.data.forEach(function(elem, index) {
+	this.data.forEach(function(elem) {
 		if( elem.gid == gid ) {
 			console.log(elem.name);
 			$gwindow.find(".name.header").html(elem.name);
@@ -63,41 +62,50 @@ store.view = function(gid) {
 				$gwindow.find(".meta").addClass("special");
 			else
 				$gwindow.find(".meta").removeClass("special");
-			if( elem["sub-item"] ) {
-				var $dd = $gwindow.find(".ui.dropdown");
-				$dd.addClass("sub-item").html("");
-				elem["sub-item"].forEach(function(sub_item) {
+			if( elem["sub-id"] ) {
+				$("#selector").addClass("sub-item").html("");
+				$("<select></select>").addClass("ui bottom left pointing dropdown").appendTo($("#selector"));
+				var $dd = $("#selector > .ui.dropdown");
+				elem["sub-id"].forEach(function(sub_item) {
 					$dd.append(new Option(sub_item, sub_item));
 				});
+				$dd.dropdown({transition:"fade up"});
 			}
 			else {
-				$gwindow.find(".ui.dropdown").removeClass("sub-item");
+				$("#selector").removeClass("sub-item").html("");
+				$("<select></select>").addClass("ui bottom left pointing dropdown").appendTo($("#selector"));
+				var $dd = $("#selector > .ui.dropdown");
+				$dd.dropdown({transition:"fade up"});
 			}
 			$gwindow.modal('show')
 				.find(".add-to-cart.button")
 					.unbind('click')
 					.on('click', function(){
-						obj.cart.add(elem.gid);
+						obj.cart.add(elem.gid, $("#selector > .ui.dropdown").dropdown("get value"));
 					});
 		}
 	});
 },
 store.cart = {
 	init : function() {
-		this.data = [];
+		this.list = [];
 	},
-	add : function(gid) {
-		console.log("add item to cart: " + gid);
+	add : function(gid, sub_id) {
+		console.log("add item to cart: " + gid + " - " + sub_id);
 		var inarr = false;
-		this.data.forEach(function(value, index) {
-			if( value["gid"] == gid ) {
+		this.list.forEach(function(value, index) {
+			if( value["gid"] == gid && ( !sub_id || value["sub-id"] == sub_id ) ) {
 				value["num"]++;
 				inarr = true;
 			}
 		});
-		if( !inarr ) 
-			this.data.push({ "id" : gid, "num" : 1 });
-		console.log(this.data);
+		if( !inarr ) {
+			if( sub_id )
+				this.list.push({ "gid" : gid, "sub-id" : sub_id, "num" : 1 });
+			else
+				this.list.push({ "gid" : gid, "num" : 1 });
+		}
+		console.log(this.list);
 		this.update();
 	},
 	update : function() {

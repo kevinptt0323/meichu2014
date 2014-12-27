@@ -54,7 +54,9 @@ body {
 #goods-window > .content > .description > .ui.header { color: #fff; }
 #goods-window > .content > .description > .segment { margin: .5rem 0; }
 #goods-window > .actions > div { margin-left: 0.75em; margin-right: 0.75em; }
-#goods-window .actions .ui.dropdown { padding-top: 0.7em; padding-bottom: 0.7em; }
+#goods-window .actions #selector { display: inline-block; }
+#goods-window .actions #selector:not(.sub-item) > .ui.dropdown { display: none; }
+#goods-window .actions #selector > .ui.dropdown { padding-top: 0.7em; padding-bottom: 0.7em; }
 #goods-window .actions .ui.pagination.menu { margin-top: -4px; }
 #goods-window .actions .ui.pagination.menu input[type="text"] {
 	width: 50px;
