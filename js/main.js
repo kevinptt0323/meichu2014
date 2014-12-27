@@ -20,7 +20,8 @@ fullpage.init = function(callback) {
 
 			//scrolling
 			'css3': true,
-			'easing': 'easeOutBounce',
+			'easing': 'easeOutQuart',
+			'easingcss3': 'ease-out',
 			'scrollingSpeed': 1000,
 			'scrollOverflow': true,
 
