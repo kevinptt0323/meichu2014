@@ -13,9 +13,9 @@ index.init = function() {
 fullpage.init = function(callback) {
 	$('#fullpage').fullpage({
 			//navigation
-			'anchors': ['index', 'store', 'activity', 'about'],
+			'anchors': ['index', 'store', 'activity'],
 			//'sectionsColor': ['transparent','transparent', 'transparent'],
-			'sectionsColor': ['rgba(255, 255, 255, 0.6)','rgba(255, 255, 220, 0.6)', 'rgba(255, 220, 255, 0.6)', 'rgba(220, 255, 255, 0.6)'],
+			'sectionsColor': ['rgba(255, 255, 255, 0.6)','rgba(255, 255, 220, 0.6)', 'rgba(255, 220, 255, 0.6)'],
 			'scrollBar': true,
 
 			//scrolling
