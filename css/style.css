@@ -54,7 +54,7 @@ body {
 .meta:not(.special) .special.price { display: none; }
 
 /* for #goods-window */
-#goods-window > .content > .description > .ui.header { color: #fff; }
+.ui.basic.modal > .content > .description > .ui.header { color: #fff; }
 #goods-window > .content > .description > .segment { margin: .5rem 0; }
 #goods-window > .actions > div { margin-left: 0.75em; margin-right: 0.75em; }
 #goods-window .actions #selector { display: inline-block; }
