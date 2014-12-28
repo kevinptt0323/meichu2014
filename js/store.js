@@ -7,18 +7,21 @@ store.init = function() {
 store.initProducts = function() {
 	var obj = this;
 	$.ajax({
-		type: "json",
+		dataType: "json",
 		url: "api/goods.php",
 		success: function(b) {
-			var data = JSON.parse(b);
+			var data = b;
 			if( data["errcode"] ) {
-				console.error("get goods failed");
+				index.message.show(data["msg"]);
 			}
 			else {
 				obj.data = data["goods"];
 				obj.makeStore();
 				obj.cart.init();
 			}
+		},
+		error: function() {
+			index.message.show("資料讀取發生錯誤，請稍後再試。");
 		}
 	});
 },
@@ -249,13 +252,15 @@ store.cart.checkout.send = function() {
 		data: data,
 		dataType: "json",
 		success: function(b) {
-			var data = JSON.parse(b);
+			var data = b;
 			if( data["errcode"] ) {
 				console.error(data["errcode"]);
-				index.message.show(data["message"]);
+				index.message.show(data["msg"]);
 			}
 			else {
-				index.message.show(data["message"]);
+				index.message.show(data["msg"]);
+				store.cart.list = [];
+				store.cart.update();
 			}
 		},
 		error: function() {
