@@ -2,7 +2,6 @@ store = { };
 store.cart = { };
 store.init = function() {
 	this.initProducts();
-	this.cart.init();
 	//this.initCookie();
 },
 store.initProducts = function() {
@@ -18,22 +17,24 @@ store.initProducts = function() {
 			else {
 				obj.data = data["goods"];
 				obj.makeStore();
+				obj.cart.init();
 			}
 		}
 	});
 },
 store.makeStore = function() {
 	var card = '<div class="card" data-gid="{{gid}}"> <div class="dimmable image"> <div class="ui dimmer"> <div class="content"> <div class="center"> <div class="ui inverted button view"><i class="zoom icon"></i>View</div> </div> </div> </div> <img src="{{src}}"> </div> <div class="content"> <a class="header">{{name}}</a> <div class="meta ui tag label price"> <span>{{price}}</span> <span class="special">{{special}}</span> </div> </div> </div>';
-	for(var i=0; i<this.data.length; i++) {
-		var newItem = card.replace("{{name}}", this.data[i].name)
-			.replace("{{gid}}", this.data[i].gid)
-			.replace("{{src}}", this.data[i].src)
-			.replace("{{price}}", this.data[i].price)
-			.replace("{{special}}", this.data[i].special || "" )
+	this.data.forEach(function(elem) {
+		var newItem = card
+			.replace("{{name}}", elem.name)
+			.replace("{{gid}}", elem.gid)
+			.replace("{{src}}", elem.src)
+			.replace("{{price}}", elem.price)
+			.replace("{{special}}", elem.special || "" )
 		$("#goods").append(newItem);
-		if( this.data[i].special )
-			$(".card:last-child .meta").addClass("special");
-	}
+		if( elem.special )
+			$(".card:last-child .price").addClass("special");
+	})
 	$(".dimmable.image").dimmer({ on: "hover" });
 
 	var gwindow = '<i class="close icon"></i> <div class="content"> <div class="ui medium image"> <a class="preview" target="_blank"><img></a> </div> <div class="description"> <div class="ui huge header name"> {{name}} </div> <div class="ui basic segment description"> {{description}} </div> <div class="ui right aligned basic segment"> <div class="meta ui huge tag label price"> <span> {{price}} </span>&nbsp; <span class="special"> {{special}} </span> </div> </div> </div> </div> <div class="ui divider"></div> <div class="actions"> <div id="selector"></div> <div class="ui medium pagination menu" id="amount"> <a class="minus icon item"> <i class="minus icon"></i> </a> <div class="item"> <div class="ui transparent input"> <input type="text" value="1"> </div> </div> <a class="add icon item"> <i class="plus icon"></i> </a> </div> <div class="ui green button add-to-cart" data-gid="{{gid}}"> <i class="plus icon"></i> Add to Cart </div> </div>';
@@ -61,9 +62,9 @@ store.view = function(gid) {
 			$gwindow.find(".description.segment").html(elem.description || "");
 			$gwindow.find("#amount > div > .ui.input input").val(1);
 			if( elem.special )
-				$gwindow.find(".meta").addClass("special");
+				$gwindow.find(".price").addClass("special");
 			else
-				$gwindow.find(".meta").removeClass("special");
+				$gwindow.find(".price").removeClass("special");
 			if( elem["sub-id"] ) {
 				$("#selector").addClass("sub-item").html("");
 				elem["sub-id"].forEach(function(sub_items) {
@@ -114,6 +115,7 @@ store.cart = {
 	init : function() {
 		this.initCookie();
 		this.list = JSON.parse($.cookie(this.cookieID));
+		this.update();
 	},
 	add : function(gid, sub_id, amount) {
 		console.log("add item to cart: " + gid + "-" + sub_id + " * " + amount);
@@ -131,18 +133,62 @@ store.cart = {
 			else
 				this.list.push({ "gid" : gid, "num" : parseInt(amount) });
 		}
+		$.cookie(this.cookieID, JSON.stringify(this.list), { expires: 1 });
 		console.log(this.list);
 		this.update();
 	},
 	update : function() {
-		$.cookie(this.cookieID, JSON.stringify(this.list), { expires: 1 });
+		/*
+		<div class="item" data-gid="1" data-subid="白,L">
+			<div class="image"> <img src="images/products/clothes_white.jpg"> </div>
+			<div class="content">
+				<div class="ui grid">
+					<div class="seven wide column">
+						<a class="ui header">梅竹賽必敗經典梅竹潮T</a>
+						<div class="meta">白 - L</div>
+					</div>
+					<div class="four wide column">
+						<div class="special price"> <span> 260 </span>&nbsp; <span class="special"> 220 </span> </div>
+					</div>
+					<div class="two wide column"> 2 </div>
+					<div class="two wide column"> 440 </div>
+					<div class="one wide column"> <i class="large link close icon"></i> </div>
+				</div>
+			</div>
+		</div>
+		*/
+		$cart = $("#cart > .items");
+		$cart.html($cart.children().first());
+		var cart_item = '<div class="item" data-index="{{index}}" data-gid="{{gid}}" data-subid="{{sub-id}}"> <div class="image"> <img src="{{src}}"> </div> <div class="content"> <div class="ui grid"> <div class="seven wide column description"> <a class="ui header">{{name}}</a> <div class="meta">{{sub-id}}</div> </div> <div class="four wide column price"> <span>{{price}}</span>&nbsp;<span class="special">{{special}}</span> </div> <div class="two wide column amount">{{amount}}</div> <div class="two wide column total">{{total}}</div> <div class="one wide column"><i class="large link close icon"></i></div> </div> </div> </div>';
+		var total = 0;
+		this.list.forEach(function(elem, index) {
+			var data = store.data.filter(function(elem2) {
+				return elem2.gid==elem.gid;
+			})[0];
+			var newItem = cart_item
+				.replace("{{index}}", index)
+				.replace("{{gid}}", elem.gid)
+				.replace(/{{sub-id}}/g, elem["sub-id"])
+				.replace("{{src}}", data.src)
+				.replace("{{name}}", data.name)
+				.replace("{{price}}", data.price)
+				.replace("{{special}}", data.special)
+				.replace("{{amount}}", elem.num)
+				.replace("{{total}}", (data.special||data.price) * elem.num);
+			$cart.append(newItem);
+			if( data.special )
+				$cart.find(".item:last-child .price").addClass("special");
+			total += (data.special||data.price) * elem.num;
+		});
+		$("#cart .actions .total").html(total);
+		$(window).trigger("resize");
 	}
 },
 
 store.cart.initCookie = function() {
 	this.cookieID = "test-cart";
 	var preCookie = $.cookie(this.cookieID);
-	if( 0&&preCookie ) {
+	if( preCookie ) {
 		$.cookie(this.cookieID, preCookie, { expires: 1 });
 		console.log("previous cookie detected");
 		console.log(preCookie);

@@ -74,6 +74,7 @@ body {
 #cart {
 	margin: auto;
 	width: 90%;
+	padding-bottom: 50px;
 }
 #cart > .items > .item {
 	padding-left: 20px;
@@ -84,6 +85,7 @@ body {
 #cart .grid { margin-top: 0; margin-bottom: 0; }
 #cart .grid .column { font-size: 14pt; }
 #cart .grid .column:not(:first-child) { text-align: center; }
+#cart .grid .meta:before { content:"顏色/尺寸："; }
 #cart .actions { text-align: right; }
 #cart .actions .total:before { content:"總金額：$"; }
 #cart .actions .total { font-size: 20pt; }
