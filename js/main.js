@@ -26,7 +26,6 @@ index.message.show = function(msg) {
 		.unbind('click')
 		.bind('click', function() {
 			$obj.modal("hide");
-			return false;
 		});
 }
 

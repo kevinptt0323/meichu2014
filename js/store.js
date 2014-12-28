@@ -224,6 +224,11 @@ store.cart.update = function() {
 };
 
 store.cart.checkout.show = function() {
+	var total = $("#cart .actions .total").html();
+	if( total == 0 ) {
+		index.message.show("購物車內無商品！");
+		return false;
+	}
 	var $checkout = $("#checkout-window");
 	$checkout.modal({
 		transition: "fade up"
