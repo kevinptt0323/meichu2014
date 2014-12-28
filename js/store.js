@@ -113,8 +113,6 @@ store.view = function(gid) {
 store.cart = {
 	init : function() {
 		this.initCookie();
-		console.log($.cookie(this.cookieID));
-		console.log(JSON.parse($.cookie(this.cookieID)));
 		this.list = JSON.parse($.cookie(this.cookieID));
 	},
 	add : function(gid, sub_id, amount) {
@@ -122,7 +120,7 @@ store.cart = {
 		var inarr = false;
 		this.list.forEach(function(value, index) {
 			if( value["gid"] == gid && ( !sub_id || value["sub-id"] == sub_id || (value["sub-id"][0]==sub_id[0]&&value["sub-id"][1]==sub_id[1]) ) ) {
-				value["num"] = value["num"] + amount;
+				value["num"] += amount;
 				//value["num"] = parseInt(value["num"]) + parseInt(amount);
 				inarr = true;
 			}
