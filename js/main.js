@@ -9,6 +9,21 @@ index.init = function() {
 	fullpage.init(nav.init);
 	$("body").css("overflow", "hidden");
 }
+index.message = { };
+index.message.$obj = $("#global-message");
+index.message.show = function(msg) {
+	console.log(msg);
+	var $obj = $("#global-message");
+	$obj.html('<i class="close icon"></i>');
+	$("<div></div>").addClass("content").html(msg).appendTo($obj);
+	$("<div></div>").addClass("actions").html(
+		$("<div></div>").addClass("ui button").html("OK")
+	).appendTo($obj);
+	$obj.modal({
+		allowMultiple: true,
+		transition: "fade up"
+	}).modal('show');
+}
 
 fullpage.init = function(callback) {
 	$('#fullpage').fullpage({

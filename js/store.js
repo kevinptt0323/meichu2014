@@ -81,9 +81,13 @@ store.view = function(gid) {
 				var $dd = $("#selector > .ui.dropdown");
 				$dd.dropdown({transition:"fade up"});
 			}
-			/* show gwindow */
-			$gwindow.modal('setting', 'transition', 'fade up').modal('show');
 
+			/* show gwindow */
+			$gwindow.modal({
+				transition: "fade up"
+			}).modal('show');
+
+			/* pagination menu handler */
 			var $amount = $gwindow.find("#amount")
 			$amount.children(".minus.item")
 				.unbind('click')
@@ -97,16 +101,20 @@ store.view = function(gid) {
 					var val = $amount.find("div > .ui.input input").val()|0;
 					$amount.find("div > .ui.input > input").val(val<1?1:val+1);
 				});
+
+			/* add to cart handler */
 			$gwindow.find(".add-to-cart.button")
 				.unbind('click')
 				.on('click', function(){
 					var val = $amount.find("div > .ui.input input").val()|0;
 					if( val<=0 ) val = 1;
-					obj.cart.add(
-						elem.gid,
-						$("#selector > .ui.dropdown").dropdown("get value"),
-						parseInt($amount.find("div > .ui.input > input").val(val).val())
-					);
+					if( obj.cart.add(
+							elem.gid,
+							$("#selector > .ui.dropdown").dropdown("get value"),
+							parseInt($amount.find("div > .ui.input > input").val(val).val())
+						)
+					)
+						index.message.show("加入購物車成功!");
 				});
 		}
 	});
@@ -135,6 +143,7 @@ store.cart = {
 		}
 		console.log(this.list);
 		this.update();
+		return true;
 	},
 	remove : function(index) {
 		console.log("remove item from cart: " + index);
@@ -186,6 +195,9 @@ store.cart = {
 			total += (data.special||data.price) * elem.num;
 		});
 		var obj = this;
+		$cart.find(".ui.header").on("click", function() {
+			store.view($(this).closest(".item").attr("data-gid"));
+		});
 		$cart.find(".close.icon").on("click", function() {
 			obj.remove($(this).closest(".item").attr("data-index"));
 		});
