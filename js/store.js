@@ -134,6 +134,12 @@ store.cart.init = function() {
 		obj.list = [];
 		obj.update();
 	});
+
+	$("#checkout-window .form").form({
+		name: { identifier: 'name', rules: [ { type: 'empty', } ] },
+		studentID: { identifier: 'studentID', rules: [ { type: 'empty', } ] },
+		phone: { identifier: 'phone', rules: [ { type: 'empty', } ] }
+	});
 },
 store.cart.initCookie = function() {
 	this.cookieID = "test-cart";
@@ -215,10 +221,45 @@ store.cart.update = function() {
 };
 
 store.cart.checkout.show = function() {
-	$checkout = $("#checkout-window");
+	var $checkout = $("#checkout-window");
 	$checkout.modal({
 		transition: "fade up"
 	}).modal('show');
+	$checkout.find(".actions .positive.button")
+		.unbind("click")
+		.bind("click", this.send);
 },
 store.cart.checkout.send = function() {
+	if( !$("#checkout-window .form").form('validate form') ) {
+		index.message.show("請務必輸入資料！");
+		return false;
+	}
+	var $checkout = $("#checkout-window");
+	var $inputs = $checkout.find(".ui.input");
+	var data = {
+		"name" : $inputs.find("input.name").val(),
+		"studentID" : $inputs.find("input.studentID").val(),
+		"phone" : $inputs.find("input.phone").val(),
+		"list" : store.cart.list
+	};
+	console.log(data);
+	$.ajax({
+		type: "POST",
+		url: "api/checkout.php",
+		data: data,
+		dataType: "json",
+		success: function(b) {
+			var data = JSON.parse(b);
+			if( data["errcode"] ) {
+				console.error(data["errcode"]);
+				index.message.show(data["message"]);
+			}
+			else {
+				index.message.show(data["message"]);
+			}
+		},
+		error: function() {
+			index.message.show("伺服器發生錯誤，請稍後再試。");
+		}
+	});
 }

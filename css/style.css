@@ -47,6 +47,10 @@ body {
 .center.title h2 { font-size: 2em; }
 .ui.center.top.pointing.dropdown > .menu { margin-top: 1em; }
 
+#global-message {
+	z-index: 2000;
+}
+
 /* .store.section */
 
 /* #goods */
