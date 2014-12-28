@@ -11,7 +11,11 @@ else {
 	$data = $mysqli->query($query);
 	$ret["goods"] = array();
 	foreach($data as $row) {
-		if( $row["sub-id"] ) $row["sub-id"] = unserialize($row["sub-id"]);
+		if( $row["sub-id"] ) {
+			$tmp = @unserialize($row["src"]);
+			if( $tmp ) $row["src"] = $tmp;
+			$row["sub-id"] = unserialize($row["sub-id"]);
+		}
 		array_push($ret["goods"], $row);
 	}
 	$data->free();

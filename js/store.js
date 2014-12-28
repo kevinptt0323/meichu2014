@@ -31,7 +31,7 @@ store.makeStore = function() {
 		var newItem = card
 			.replace("{{name}}", elem.name)
 			.replace("{{gid}}", elem.gid)
-			.replace("{{src}}", elem.src)
+			.replace("{{src}}", (elem.src instanceof Array)?elem.src[0]:elem.src)
 			.replace("{{price}}", elem.price)
 			.replace("{{special}}", elem.special || "" )
 		$("#goods").append(newItem);
@@ -59,7 +59,7 @@ store.view = function(gid) {
 			console.log(elem.name);
 			$gwindow.find(".name.header").html(elem.name);
 			$gwindow.find(".button").attr("data-gid", elem.gid);
-			$gwindow.find("a.preview").attr("href", elem.src).children("img").attr("src", elem.src);
+			$gwindow.find("a.preview").attr("href", (elem.src instanceof Array)?elem.src[0]:elem.src).children("img").attr("src", (elem.src instanceof Array)?elem.src[0]:elem.src);
 			$gwindow.find(".price > span:not(.special)").html(elem.price);
 			$gwindow.find(".price > span.special").html(elem.special || "");
 			$gwindow.find(".description.segment").html(elem.description || "");
@@ -70,12 +70,23 @@ store.view = function(gid) {
 				$gwindow.find(".price").removeClass("special");
 			if( elem["sub-id"] ) {
 				$("#selector").addClass("sub-item").html("");
-				elem["sub-id"].forEach(function(sub_items) {
+				elem["sub-id"].forEach(function(sub_items,index) {
 					var $dd = $("<select></select>").addClass("ui bottom left pointing dropdown");
 					sub_items.forEach(function(sub_item) {
 						$dd.append(new Option(sub_item, sub_item));
 					});
-					$dd.appendTo("#selector").dropdown({transition:"fade up"});
+					if( (elem.src instanceof Array) && sub_items.length == elem.src.length )
+						$dd.appendTo("#selector").dropdown({
+							transition:"fade up",
+							onChange: function(value, text) {
+								var src = elem.src[sub_items.indexOf(value)];
+								$gwindow.find("a.preview").attr("href", src).children("img").attr("src", src);
+							},
+						});
+					else 
+						$dd.appendTo("#selector").dropdown({
+							transition:"fade up",
+						});
 				});
 			}
 			else {
