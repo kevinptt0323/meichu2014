@@ -216,7 +216,9 @@ store.cart.update = function() {
 
 store.cart.checkout.show = function() {
 	$checkout = $("#checkout-window");
-	$
+	$checkout.modal({
+		transition: "fade up"
+	}).modal('show');
 },
 store.cart.checkout.send = function() {
 }

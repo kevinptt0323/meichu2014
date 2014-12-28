@@ -60,6 +60,40 @@
 			</div>
 			<div class="store section">
 				<div class="ui modal" id="goods-window"> </div>
+				<div class="ui modal" id="checkout-window">
+					<div class="header"> 結帳 </div>
+					<div class="content">
+						<div class="ui form">
+							<div class="three fields">
+								<div class="field">
+									<label>姓名</label>
+									<div class="ui labeled input">
+										<input name="name" placeholder="請輸入真實姓名" type="text" tabindex="1" autocomplete="off">
+										<div class="ui corner label"> <i class="asterisk icon"></i> </div>
+									</div>
+								</div>
+								<div class="field">
+									<label>學號</label>
+									<div class="ui labeled input">
+										<input name="name" placeholder="請輸入學號" type="text" tabindex="2" autocomplete="off">
+										<div class="ui corner label"> <i class="asterisk icon"></i> </div>
+									</div>
+								</div>
+								<div class="field">
+									<label>電話</label>
+									<div class="ui labeled input">
+										<input name="name" placeholder="請輸入電話" type="text" tabindex="3" autocomplete="off">
+										<div class="ui corner label"> <i class="asterisk icon"></i> </div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="actions">
+						<span>請記得再次確認訂購的商品是否正確。</span>
+						<div class="ui positive button">確認</div>
+					</div>
+				</div>
 				<div class="slide">
 					<div class="ui doubling cards" id="goods"> </div>
 				</div>
@@ -83,8 +117,8 @@
 						<div class="actions">
 							<p> <div class="total ui large header"> 880 </div> </p>
 							<p>
-								<div class="ui positive labeled icon large button"> <i class="shop icon"></i> 結帳 </div>
-								<div class="ui negative labeled icon large button"> <i class="refresh icon"></i> 清空購物車 </div>
+								<div class="ui positive labeled icon large button checkout"> <i class="shop icon"></i> 結帳 </div>
+								<div class="ui negative labeled icon large button clear"> <i class="refresh icon"></i> 清空購物車 </div>
 							</p>
 						</div>
 					</div>
