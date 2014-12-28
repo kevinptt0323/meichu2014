@@ -118,99 +118,27 @@ store.view = function(gid) {
 				});
 		}
 	});
-},
-store.cart = {
-	init : function() {
-		this.initCookie();
-		this.list = JSON.parse($.cookie(this.cookieID));
-		this.update();
-	},
-	add : function(gid, sub_id, amount) {
-		console.log("add item to cart: " + gid + "-" + sub_id + " * " + amount);
-		var inarr = false;
-		this.list.forEach(function(value, index) {
-			if( value["gid"] == gid && ( !sub_id || value["sub-id"] == sub_id || (value["sub-id"][0]==sub_id[0]&&value["sub-id"][1]==sub_id[1]) ) ) {
-				value["num"] += amount;
-				//value["num"] = parseInt(value["num"]) + parseInt(amount);
-				inarr = true;
-			}
-		});
-		if( !inarr ) {
-			if( sub_id )
-				this.list.push({ "gid" : gid, "sub-id" : sub_id, "num" : parseInt(amount) });
-			else
-				this.list.push({ "gid" : gid, "num" : parseInt(amount) });
-		}
-		console.log(this.list);
-		this.update();
-		return true;
-	},
-	remove : function(index) {
-		console.log("remove item from cart: " + index);
-		this.list.splice(index, 1);
-		this.update();
-	},
-	update : function() {
-		$.cookie(this.cookieID, JSON.stringify(this.list), { expires: 1 });
-		/*
-		<div class="item" data-gid="1" data-subid="白,L">
-			<div class="image"> <img src="images/products/clothes_white.jpg"> </div>
-			<div class="content">
-				<div class="ui grid">
-					<div class="seven wide column">
-						<a class="ui header">梅竹賽必敗經典梅竹潮T</a>
-						<div class="meta">白 - L</div>
-					</div>
-					<div class="four wide column">
-						<div class="special price"> <span> 260 </span>&nbsp; <span class="special"> 220 </span> </div>
-					</div>
-					<div class="two wide column"> 2 </div>
-					<div class="two wide column"> 440 </div>
-					<div class="one wide column"> <i class="large link close icon"></i> </div>
-				</div>
-			</div>
-		</div>
-		*/
-		$cart = $("#cart > .items");
-		$cart.html($cart.children().first());
-		var cart_item = '<div class="item" data-index="{{index}}" data-gid="{{gid}}" data-subid="{{sub-id}}"> <div class="image"> <img src="{{src}}"> </div> <div class="content"> <div class="ui grid"> <div class="seven wide column description"> <a class="ui header">{{name}}</a> <div class="meta">{{sub-id}}</div> </div> <div class="four wide column price"> <span>{{price}}</span>&nbsp;<span class="special">{{special}}</span> </div> <div class="two wide column amount">{{amount}}</div> <div class="two wide column total">{{total}}</div> <div class="one wide column"><i class="large link close icon"></i></div> </div> </div> </div>';
-		var total = 0;
-		this.list.forEach(function(elem, index) {
-			var data = store.data.filter(function(elem2) {
-				return elem2.gid==elem.gid;
-			})[0];
-			var newItem = cart_item
-				.replace("{{index}}", index)
-				.replace("{{gid}}", elem.gid)
-				.replace(/{{sub-id}}/g, elem["sub-id"] || "無")
-				.replace("{{src}}", data.src)
-				.replace("{{name}}", data.name)
-				.replace("{{price}}", data.price)
-				.replace("{{special}}", data.special)
-				.replace("{{amount}}", elem.num)
-				.replace("{{total}}", (data.special||data.price) * elem.num);
-			$cart.append(newItem);
-			if( data.special )
-				$cart.find(".item:last-child .price").addClass("special");
-			total += (data.special||data.price) * elem.num;
-		});
-		var obj = this;
-		$cart.find(".ui.header").on("click", function() {
-			store.view($(this).closest(".item").attr("data-gid"));
-		});
-		$cart.find(".close.icon").on("click", function() {
-			obj.remove($(this).closest(".item").attr("data-index"));
-		});
-		$("#cart .actions .total").html(total);
-		$(window).trigger("resize");
-	}
-},
+};
 
+store.cart.checkout = { },
+store.cart.init = function() {
+	this.initCookie();
+	this.list = JSON.parse($.cookie(this.cookieID));
+	this.update();
+
+	var obj = this;
+	$("#cart .actions .checkout.button").on("click", function() {
+		obj.checkout.show();
+	});
+	$("#cart .actions .clear.button").on("click", function() {
+		obj.list = [];
+		obj.update();
+	});
+},
 store.cart.initCookie = function() {
 	this.cookieID = "test-cart";
 	var preCookie = $.cookie(this.cookieID);
 	if( preCookie ) {
-		$.cookie(this.cookieID, preCookie, { expires: 1 });
 		console.log("previous cookie detected");
 		console.log(preCookie);
 	}
@@ -218,5 +146,77 @@ store.cart.initCookie = function() {
 		$.cookie(this.cookieID, '[]', { expires: 1 });
 		console.log("new cookie construct");
 	}
-}
+},
+store.cart.add = function(gid, sub_id, amount) {
+	console.log("add item to cart: " + gid + "-" + sub_id + " * " + amount);
+	var inarr = false;
+	this.list.forEach(function(value, index) {
+		if( value["gid"] == gid && ( !sub_id || value["sub-id"] == sub_id || (value["sub-id"][0]==sub_id[0]&&value["sub-id"][1]==sub_id[1]) ) ) {
+			value["num"] += amount;
+			//value["num"] = parseInt(value["num"]) + parseInt(amount);
+			inarr = true;
+		}
+	});
+	if( !inarr ) {
+		if( sub_id )
+			this.list.push({ "gid" : gid, "sub-id" : sub_id, "num" : parseInt(amount) });
+		else
+			this.list.push({ "gid" : gid, "num" : parseInt(amount) });
+	}
+	console.log(this.list);
+	this.update();
+	return true;
+},
+store.cart.remove = function(index) {
+	console.log("remove item from cart: " + index);
+	this.list.splice(index, 1);
+	this.update();
+},
+store.cart.update = function() {
+	this.list.sort(function(a,b) {
+		return a["gid"]!=b["gid"]?a["gid"]-b["gid"]:a["sub-id"]-b["sub-id"];
+	});
+	$.cookie(this.cookieID, JSON.stringify(this.list), { expires: 1 });
 
+	$cart = $("#cart > .items");
+	$cart.html($cart.children().first());
+	var cart_item = '<div class="item" data-index="{{index}}" data-gid="{{gid}}" data-subid="{{sub-id}}"> <div class="image"> <img src="{{src}}"> </div> <div class="content"> <div class="ui grid"> <div class="seven wide column description"> <a class="ui header">{{name}}</a> <div class="meta">{{sub-id}}</div> </div> <div class="four wide column price"> <span>{{price}}</span>&nbsp;<span class="special">{{special}}</span> </div> <div class="two wide column amount">{{amount}}</div> <div class="two wide column total">{{total}}</div> <div class="one wide column"><i class="large link close icon"></i></div> </div> </div> </div>';
+	var total = 0;
+	this.list.forEach(function(elem, index) {
+		var data = store.data.filter(function(elem2) {
+			return elem2.gid==elem.gid;
+		})[0];
+		var newItem = cart_item
+			.replace("{{index}}", index)
+			.replace("{{gid}}", elem.gid)
+			.replace(/{{sub-id}}/g, elem["sub-id"] || "無")
+			.replace("{{src}}", data.src)
+			.replace("{{name}}", data.name)
+			.replace("{{price}}", data.price)
+			.replace("{{special}}", data.special)
+			.replace("{{amount}}", elem.num)
+			.replace("{{total}}", (data.special||data.price) * elem.num);
+		$cart.append(newItem);
+		if( data.special )
+			$cart.find(".item:last-child .price").addClass("special");
+		total += (data.special||data.price) * elem.num;
+	});
+
+	/* events */
+	var obj = this;
+	$cart.find(".ui.header").on("click", function() {
+		store.view($(this).closest(".item").attr("data-gid"));
+	});
+	$cart.find(".close.icon").on("click", function() {
+		obj.remove($(this).closest(".item").attr("data-index"));
+	});
+	$("#cart .actions .total").html(total);
+	$(window).trigger("resize");
+};
+
+store.cart.checkout.show = function() {
+	$checkout = $("#checkout-window");
+	$
+},
+store.cart.checkout.send = function() {
+}
