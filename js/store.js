@@ -133,11 +133,16 @@ store.cart = {
 			else
 				this.list.push({ "gid" : gid, "num" : parseInt(amount) });
 		}
-		$.cookie(this.cookieID, JSON.stringify(this.list), { expires: 1 });
 		console.log(this.list);
 		this.update();
 	},
+	remove : function(index) {
+		console.log("remove item from cart: " + index);
+		this.list.splice(index, 1);
+		this.update();
+	},
 	update : function() {
+		$.cookie(this.cookieID, JSON.stringify(this.list), { expires: 1 });
 		/*
 		<div class="item" data-gid="1" data-subid="白,L">
 			<div class="image"> <img src="images/products/clothes_white.jpg"> </div>
@@ -168,7 +173,7 @@ store.cart = {
 			var newItem = cart_item
 				.replace("{{index}}", index)
 				.replace("{{gid}}", elem.gid)
-				.replace(/{{sub-id}}/g, elem["sub-id"])
+				.replace(/{{sub-id}}/g, elem["sub-id"] || "無")
 				.replace("{{src}}", data.src)
 				.replace("{{name}}", data.name)
 				.replace("{{price}}", data.price)
@@ -179,6 +184,10 @@ store.cart = {
 			if( data.special )
 				$cart.find(".item:last-child .price").addClass("special");
 			total += (data.special||data.price) * elem.num;
+		});
+		var obj = this;
+		$cart.find(".close.icon").on("click", function() {
+			obj.remove($(this).closest(".item").attr("data-index"));
 		});
 		$("#cart .actions .total").html(total);
 		$(window).trigger("resize");
