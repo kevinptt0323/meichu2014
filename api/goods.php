@@ -10,7 +10,7 @@ else {
 	$query = "SELECT * FROM `Goods` ORDER BY `gid` ASC";
 	$data = $mysqli->query($query);
 	$ret["goods"] = array();
-	while( $row = $data->fetch_array() ) {
+	while( $row = $data->fetch_assoc() ) {
 		if( $row["sub-id"] ) {
 			$tmp = @unserialize($row["src"]);
 			if( $tmp ) $row["src"] = $tmp;

@@ -10,7 +10,7 @@ else {
 	$query = "SELECT * FROM `Activity` ORDER BY `aid` ASC";
 	$data = $mysqli->query($query);
 	$ret["activity"] = array();
-	foreach( $row = $data->fetch_field() ) {
+	while( $row = $data->fetch_assoc() ) {
 		array_push($ret["activity"], $row);
 	}
 	$data->free();
