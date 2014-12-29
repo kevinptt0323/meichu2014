@@ -2,6 +2,7 @@ store = { };
 store.cart = { };
 store.init = function() {
 	this.initProducts();
+	$("#goods-window").modal({allowMultiple: true, transition: 'fade up'});
 	//this.initCookie();
 },
 store.initProducts = function() {
@@ -97,9 +98,7 @@ store.view = function(gid) {
 			}
 
 			/* show gwindow */
-			$gwindow.modal({
-				transition: "fade up"
-			}).modal('show');
+			$gwindow.modal('show');
 
 			/* pagination menu handler */
 			var $amount = $gwindow.find("#amount")
@@ -148,6 +147,7 @@ store.cart.init = function() {
 		obj.list = [];
 		obj.update();
 	});
+	$("#checkout-window").modal({allowMultiple: true, transition: 'fade up'});
 
 	$("#checkout-window .form").form({
 		name: { identifier: 'name', rules: [ { type: 'empty', } ] },
@@ -156,7 +156,7 @@ store.cart.init = function() {
 	});
 },
 store.cart.initCookie = function() {
-	this.cookieID = "test-cart";
+	this.cookieID = "cart";
 	var preCookie = $.cookie(this.cookieID);
 	if( preCookie ) {
 		console.log("previous cookie detected");
@@ -260,9 +260,7 @@ store.cart.checkout.show = function() {
 		return false;
 	}
 	var $checkout = $("#checkout-window");
-	$checkout.modal({
-		transition: "fade up"
-	}).modal('show');
+	$checkout.modal('show');
 	$checkout.find(".actions .positive.button")
 		.unbind("click")
 		.bind("click", this.send);
