@@ -55,7 +55,7 @@ function get_data() {
 	$query = "SELECT * FROM `Goods` ORDER BY `gid` ASC";
 	$data = $mysqli->query($query);
 	$ret = array();
-	foreach($data as $row) {
+	for( $row = $data->fetch_array() ) {
 		if( $row["sub-id"] ) $row["sub-id"] = unserialize($row["sub-id"]);
 		$ret[$row["gid"]] = $row;
 	}
