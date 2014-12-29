@@ -44,6 +44,7 @@ fullpage.init = function(callback) {
 			'scrollOverflow': true,
 
 			//design
+			'controlArrowColor': 'rgba(100, 100, 100, .8)',
 			'resize': false,
 			'paddingTop': '48px',
 

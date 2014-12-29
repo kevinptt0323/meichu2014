@@ -2,7 +2,6 @@ store = { };
 store.cart = { };
 store.init = function() {
 	this.initProducts();
-	$("#goods-window").modal({allowMultiple: true, transition: 'fade up'});
 	//this.initCookie();
 },
 store.initProducts = function() {
@@ -27,7 +26,7 @@ store.initProducts = function() {
 	});
 },
 store.makeStore = function() {
-	var card = '<div class="card" data-gid="{{gid}}"> <div class="dimmable image"> <div class="ui dimmer"> <div class="content"> <div class="center"> <div class="ui inverted button view"><i class="zoom icon"></i>View</div> </div> </div> </div> <img src="{{src}}"> </div> <div class="content"> <a class="header">{{name}}</a> <div class="meta ui tag label price"> <span>{{price}}</span> <span class="special">{{special}}</span> </div> </div> </div>';
+	var card = '<div class="card" data-gid="{{gid}}"> <div class="dimmable image"> <div class="ui dimmer"> <div class="content"> <div class="center"> <div class="ui inverted button view"><i class="zoom icon"></i>商品資訊</div> </div> </div> </div> <img src="{{src}}"> </div> <div class="content"> <a class="header">{{name}}</a> <div class="meta ui tag label price"> <span>{{price}}</span> <span class="special">{{special}}</span> </div> </div> </div>';
 	this.data.forEach(function(elem) {
 		var newItem = card
 			.replace("{{name}}", elem.name)
@@ -41,8 +40,10 @@ store.makeStore = function() {
 	})
 	$(".dimmable.image").dimmer({ on: "hover" });
 
-	var gwindow = '<i class="close icon"></i> <div class="content"> <div class="ui medium image"> <a class="preview" target="_blank"><img></a> </div> <div class="description"> <div class="ui huge header name"> {{name}} </div> <div class="ui basic segment description"> {{description}} </div> <div class="ui right aligned basic segment"> <div class="meta ui huge tag label price"> <span> {{price}} </span>&nbsp; <span class="special"> {{special}} </span> </div> </div> </div> </div> <div class="actions"> <div id="selector"></div> <div class="ui medium pagination menu" id="amount"> <a class="minus icon item"> <i class="minus icon"></i> </a> <div class="item"> <div class="ui transparent input"> <input type="text" value="1"> </div> </div> <a class="add icon item"> <i class="plus icon"></i> </a> </div> <div class="ui green button add-to-cart" data-gid="{{gid}}"> <i class="plus icon"></i> Add to Cart </div> </div>';
-	$("#goods-window").html(gwindow);
+	var gwindow = '<i class="close icon"></i> <div class="content"> <div class="ui medium image"> <a class="preview" target="_blank"><img title="點此可觀看放大圖"></a> </div> <div class="description"> <div class="ui huge header name"> {{name}} </div> <div class="ui basic segment description"> {{description}} </div> <div class="ui right aligned basic segment"> <div class="meta ui huge tag label price"> <span> {{price}} </span>&nbsp; <span class="special"> {{special}} </span> </div> </div> </div> </div> <div class="actions"> <div id="selector"></div> <div class="ui medium pagination menu" id="amount"> <a class="minus icon item"> <i class="minus icon"></i> </a> <div class="item"> <div class="ui transparent input"> <input type="text" value="1"> </div> </div> <a class="add icon item"> <i class="plus icon"></i> </a> </div> <div class="ui green button add-to-cart" data-gid="{{gid}}"> <i class="plus icon"></i> 新增至購物車 </div> </div>';
+	$("#goods-window")
+		.html(gwindow)
+		.modal({allowMultiple: true, transition: 'fade up'});
 
 	var obj = this;
 	$(".card").on('click', function() {
