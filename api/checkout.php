@@ -35,36 +35,12 @@ else {
 		if( !isset($goods[$elem["gid"]]) ) {
 			$ret["errcode"] = 1;
 			$ret["msg"] = "輸入錯誤，請稍後再試。";
-			break;
-		}
-		$elem2 = $goods[$elem["gid"]];
-		$price = $elem2["price"];
-		if( isset($elem2["special"]) )
-			$price = $elem2["special"];
-		if( $elem["gid"] == 7 ) $poker_count += $elem["num"];
-		$total += $price * $elem["num"];
-		$sub_id = null;
-		$insert = "";
-		if( isset($elem["sub-id"]) ) {
-			$sub_id = $elem["sub-id"];
-			if( is_array($sub_id) ) {
-				$sub_id = $sub_id[0] . "-" . $sub_id[1];
-			}
-			$insert = "INSERT INTO `Purchase` (
-				`cid`, `gid`, `sub-id`, `num`, `price`
-				) VALUES (
-				'$cid', '$elem[gid]', '$sub_id', '$elem[num]', '$price'
-			)";
 		}
 		else {
-			$insert = "INSERT INTO `Purchase` (
-				`cid`, `gid`, `num`, `price`
-				) VALUES (
-				'$cid', '$elem[gid]', '$elem[num]', '$price'
-			)";
+			$elem2 = $goods[$elem["gid"]];
+			$price = isset($elem2["special"]) ? $elem2["special"] : $elem2["price"];
+			$total += add_purchase($mysqli, $cid, $elem["gid"], isset($elem["sub-id"])?$elem["sub-id"]:null, $price, $elem["num"]);
 		}
-		//echo $insert + "\n";
-		$mysqli->query($insert);
 	}
 	if( !isset($ret["msg"]) ) {
 		$total -= (int)($poker_count/2) * 20;
@@ -85,6 +61,39 @@ function get_data() {
 	}
 	$data->free();
 	return $ret;
+}
+function add_purchase($mysqli, $cid, $gid, $sub_id, $price, $num) {
+	
+	if( $gid == 7 ) $poker_count += $num;
+	if( $gid == 8 ) {
+		add_purchase($mysqli, $cid, 1, array($sub_id[0], $sub_id[1]), 0, $num);
+		add_purchase($mysqli, $cid, 2, $sub_id[2], 0, $num);
+		add_purchase($mysqli, $cid, 3, $sub_id[3], 0, $num);
+		add_purchase($mysqli, $cid, 4, null, 0, $num);
+		add_purchase($mysqli, $cid, 5, $sub_id[4], 0, $num);
+		add_purchase($mysqli, $cid, 6, null, 0, $num);
+		$sub_id = null;
+	}
+	$insert = "";
+	if( $sub_id !== null ) {
+		if( is_array($sub_id) ) {
+			$sub_id = $sub_id[0] . "-" . $sub_id[1];
+		}
+		$insert = "INSERT INTO `Purchase` (
+			`cid`, `gid`, `sub-id`, `num`, `price`
+			) VALUES (
+			'$cid', '$gid', '$sub_id', '$num', '$price'
+		)";
+	}
+	else {
+		$insert = "INSERT INTO `Purchase` (
+			`cid`, `gid`, `num`, `price`
+			) VALUES (
+			'$cid', '$gid', '$num', '$price'
+		)";
+	}
+	$mysqli->query($insert);
+	return $price * $num;
 }
 
 ?>
