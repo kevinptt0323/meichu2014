@@ -47,6 +47,7 @@ fullpage.init = function(callback) {
 			'controlArrowColor': 'rgba(100, 100, 100, .8)',
 			'resize': false,
 			'paddingTop': '48px',
+			'responsive': 400,
 
 			//events
 			'afterRender' : callback
