@@ -19,7 +19,6 @@ index.message.show = function(msg) {
 		$("<div></div>").addClass("ui primary button").html("OK")
 	).appendTo($obj);
 	$obj.modal({
-		allowMultiple: true,
 		transition: "fade up"
 	}).modal('show');
 	$obj.find(".ui.button")

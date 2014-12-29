@@ -269,7 +269,7 @@ store.cart.checkout.show = function() {
 },
 store.cart.checkout.send = function() {
 	if( !$("#checkout-window .form").form('validate form') ) {
-		index.message.show("請務必輸入資料！");
+		index.message.show("請務必輸入完整資料！");
 		return false;
 	}
 	var $checkout = $("#checkout-window");

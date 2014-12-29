@@ -4,7 +4,7 @@ require_once('../include/auth.php');
 global $mysqli;
 if( !isset($_POST["name"]) || !isset($_POST["studentID"]) || !isset($_POST["phone"]) || !isset($_POST["list"]) ) {
 	$ret["errcode"] = 1;
-	$ret["msg"] = "請務必輸入資料。";
+	$ret["msg"] = "請務必輸入完整資料。";
 }
 else if( $mysqli->connect_error ) {
 	$ret["errcode"] = 1;
@@ -47,7 +47,7 @@ else {
 		$insert = "";
 		if( isset($elem["sub-id"]) ) {
 			$sub_id = $elem["sub-id"];
-			if( isset($sub_id[0]) ) {
+			if( is_array($sub_id) ) {
 				$sub_id = $sub_id[0] . "-" . $sub_id[1];
 			}
 			$insert = "INSERT INTO `Purchase` (
