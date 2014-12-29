@@ -7,7 +7,6 @@ var
 index.init = function() {
 	store.init();
 	activity.init(function() {fullpage.init(nav.init);});
-	$("body").css("overflow", "hidden");
 	$("#global-message").modal({allowMultiple: true, transition: 'fade up'});
 }
 index.message = { };
@@ -82,7 +81,8 @@ nav.init = function() {
 			;
 			$peekItem.removeClass('active')
 				.eq( index ).addClass('active');
-		}
+		},
+		offset: "40px"
 	});
 
 	$("#Nav .ui.item .dropdown").dropdown({
