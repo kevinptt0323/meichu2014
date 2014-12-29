@@ -55,7 +55,7 @@ body.black .ui.header {
 /* .store.section */
 
 /* #goods */
-.ui.cards { padding: 10px 50px 0; }
+.ui.cards { padding: 10px 60px 0; }
 .ui.cards .card { cursor: pointer; }
 .price > span:before { content: "$" }
 .special.price > span:not(.special) { text-decoration: line-through;  }

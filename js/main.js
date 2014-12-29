@@ -57,7 +57,7 @@ fullpage.init = function(callback) {
 nav.init = function() {
 	activity.data.forEach(function(elem, index) {
 		var activity_item = '<a class="item" href="#activity/{{index}}">{{title}}</a>';
-		$("#Nav > .menu > .activity.item > .menu").append(
+		$("#Nav > .menu > .activity.item > .dropdown > .menu").append(
 			activity_item
 				.replace("{{index}}", index)
 				.replace("{{title}}", elem.title)
@@ -85,7 +85,7 @@ nav.init = function() {
 		}
 	});
 
-	$("#Nav .ui.dropdown.item").dropdown({
+	$("#Nav .ui.item .dropdown").dropdown({
 		on: 'hover',
 		transition : 'fade',
 		className : { active : 'myActive' }
