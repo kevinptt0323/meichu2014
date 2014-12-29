@@ -173,8 +173,25 @@ store.cart.initCookie = function() {
 store.cart.add = function(gid, sub_id, amount) {
 	console.log("add item to cart: " + gid + "-" + sub_id + " * " + amount);
 	var inarr = false;
+	var same = function(a, b) {
+		var ret = true;
+		if( (a instanceof Array) && (b instanceof Array) ) {
+			if( a.length!=b.length ) ret = false;
+			else
+				a.forEach(function(elem, index) {
+					if( elem!=b[index] )
+						ret = false;
+				});
+		}
+		else if( !(a instanceof Array) && !(b instanceof Array) ) {
+			ret = (a==b);
+		}
+		else
+			ret = false;
+		return ret;
+	};
 	this.list.forEach(function(value, index) {
-		if( value["gid"] == gid && ( !sub_id || value["sub-id"] == sub_id || (value["sub-id"][0]==sub_id[0]&&value["sub-id"][1]==sub_id[1]) ) ) {
+		if( value["gid"] == gid && ( !sub_id || same(value["sub-id"], sub_id) ) ) {
 			value["num"] += amount;
 			//value["num"] = parseInt(value["num"]) + parseInt(amount);
 			inarr = true;
