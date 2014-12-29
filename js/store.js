@@ -12,6 +12,7 @@ store.initProducts = function() {
 		success: function(b) {
 			var data = b;
 			if( data["errcode"] ) {
+				obj.data = [];
 				index.message.show(data["msg"]);
 			}
 			else {
@@ -21,6 +22,7 @@ store.initProducts = function() {
 			}
 		},
 		error: function() {
+			obj.data = [];
 			index.message.show("資料讀取發生錯誤，請稍後再試。");
 		}
 	});

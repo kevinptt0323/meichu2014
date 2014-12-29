@@ -6,7 +6,7 @@ var
 
 index.init = function() {
 	store.init();
-	fullpage.init(nav.init);
+	activity.init(function() {fullpage.init(nav.init);});
 	$("body").css("overflow", "hidden");
 	$("#global-message").modal({allowMultiple: true, transition: 'fade up'});
 }
@@ -54,6 +54,14 @@ fullpage.init = function(callback) {
 }
 
 nav.init = function() {
+	activity.data.forEach(function(elem, index) {
+		var activity_item = '<a class="item" href="#activity/{{index}}">{{title}}</a>';
+		$("#Nav > .menu > .activity.item > .menu").append(
+			activity_item
+				.replace("{{index}}", index)
+				.replace("{{title}}", elem.title)
+		);
+	});
 
 	var
 		$peek = $('.peek.menu'),
