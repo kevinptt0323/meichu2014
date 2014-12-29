@@ -75,7 +75,7 @@ store.view = function(gid) {
 			if( elem["sub-id"] ) {
 				$("#selector").addClass("sub-item").html("");
 				elem["sub-id"].forEach(function(sub_items,index) {
-					var $dd = $("<select></select>").addClass("ui bottom left pointing dropdown");
+					var $dd = $("<select></select>").addClass("ui bottom left pointing compact dropdown");
 					sub_items.forEach(function(sub_item) {
 						$dd.append(new Option(sub_item, sub_item));
 					});

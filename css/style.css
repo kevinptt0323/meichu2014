@@ -34,10 +34,6 @@ body.black .ui.header {
 }
 
 @media screen and (min-width: 768px) {
-#Nav > .item:first-child {
-	padding-left: 100px;
-	padding-right: 100px;
-}
 }
 
 .section {
