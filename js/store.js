@@ -46,6 +46,7 @@ store.makeStore = function() {
 	$("#goods-window")
 		.html(gwindow)
 		.modal({allowMultiple: true, transition: 'fade up'});
+	$(window).trigger("resize");
 
 	var obj = this;
 	$(".card").on('click', function() {
