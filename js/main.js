@@ -8,6 +8,7 @@ index.init = function() {
 	store.init();
 	fullpage.init(nav.init);
 	$("body").css("overflow", "hidden");
+	$("#global-message").modal({allowMultiple: true, transition: 'fade up'});
 }
 index.message = { };
 index.message.show = function(msg) {
@@ -18,13 +19,12 @@ index.message.show = function(msg) {
 	$("<div></div>").addClass("actions").html(
 		$("<div></div>").addClass("ui primary button").html("OK")
 	).appendTo($obj);
-	$obj.modal({
-		transition: "fade up"
-	}).modal('show');
+	$obj.modal('show');
 	$obj.find(".ui.button")
 		.unbind('click')
 		.bind('click', function() {
 			$obj.modal("hide");
+			return false;
 		});
 }
 
