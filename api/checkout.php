@@ -30,6 +30,7 @@ else {
 	$goods = get_data();
 
 	$total = 0;
+	$poker_count = 0;
 	foreach($list as $elem) {
 		if( !isset($goods[$elem["gid"]]) ) {
 			$ret["errcode"] = 1;
@@ -40,6 +41,7 @@ else {
 		$price = $elem2["price"];
 		if( isset($elem2["special"]) )
 			$price = $elem2["special"];
+		if( $elem["gid"] == 7 ) $poker_count += $elem["num"];
 		$total += $price * $elem["num"];
 		$sub_id = null;
 		$insert = "";
@@ -65,6 +67,7 @@ else {
 		$mysqli->query($insert);
 	}
 	if( !isset($ret["msg"]) ) {
+		$total -= (int)($poker_count/2) * 20;
 		$mysqli->query("UPDATE `Customer` SET `total` = '$total' WHERE `cid` = '$cid'");
 		$ret["errcode"] = 0;
 		$ret["msg"] = "結帳成功！請務必於指定時間前往攤位繳費。";

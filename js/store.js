@@ -202,15 +202,17 @@ store.cart.update = function() {
 	$cart.html($cart.children().first());
 	var cart_item = '<div class="item" data-index="{{index}}" data-gid="{{gid}}" data-subid="{{sub-id}}"> <div class="image"> <img src="{{src}}"> </div> <div class="content"> <div class="ui grid"> <div class="seven wide column description"> <a class="ui header">{{name}}</a> <div class="meta">{{sub-id}}</div> </div> <div class="four wide column price"> <span>{{price}}</span>&nbsp;<span class="special">{{special}}</span> </div> <div class="two wide column amount">{{amount}}</div> <div class="two wide column total">{{total}}</div> <div class="one wide column"><i class="large link close icon"></i></div> </div> </div> </div>';
 	var total = 0;
+	var poker_count = 0;
 	this.list.forEach(function(elem, index) {
 		var data = store.data.filter(function(elem2) {
 			return elem2.gid==elem.gid;
 		})[0];
+		var src = (data.src instanceof Array)?data.src[data["sub-id"][0].indexOf((elem["sub-id"] instanceof Array)?elem["sub-id"][0]:elem["sub-id"])]:data.src;
 		var newItem = cart_item
 			.replace("{{index}}", index)
 			.replace("{{gid}}", elem.gid)
 			.replace(/{{sub-id}}/g, elem["sub-id"] || "無")
-			.replace("{{src}}", data.src)
+			.replace("{{src}}", src)
 			.replace("{{name}}", data.name)
 			.replace("{{price}}", data.price)
 			.replace("{{special}}", data.special)
@@ -220,7 +222,24 @@ store.cart.update = function() {
 		if( data.special )
 			$cart.find(".item:last-child .price").addClass("special");
 		total += (data.special||data.price) * elem.num;
+		if( elem.gid==7 ) poker_count += elem.num;
 	});
+	console.log(poker_count);
+	if( poker_count>1 ) {
+		total += (poker_count/2|0) * -20;
+		var newItem = cart_item
+			.replace("{{index}}", this.list.length)
+			.replace("{{gid}}", "")
+			.replace(/{{sub-id}}/g, "")
+			.replace("{{src}}", store.data[6].src)
+			.replace("{{name}}", "梅竹撲克牌(兩副特價$180)")
+			.replace("{{price}}", "0")
+			.replace("{{special}}", "-20")
+			.replace("{{amount}}", (poker_count/2|0))
+			.replace("{{total}}", (poker_count/2|0) * -20);
+		$cart.append(newItem);
+		$cart.find(".item:last-child .price").addClass("special");
+	}
 
 	/* events */
 	var obj = this;
