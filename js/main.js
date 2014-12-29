@@ -32,8 +32,8 @@ fullpage.init = function(callback) {
 	$('#fullpage').fullpage({
 			//navigation
 			'anchors': ['index', 'store', 'activity'],
-			//'sectionsColor': ['transparent','transparent', 'transparent'],
-			'sectionsColor': ['rgba(255, 255, 255, 0.6)','rgba(255, 255, 220, 0.6)', 'rgba(255, 220, 255, 0.6)'],
+			'sectionsColor': ['transparent','transparent', 'transparent'],
+			//'sectionsColor': ['rgba(255, 255, 255, 0.6)','rgba(255, 255, 220, 0.6)', 'rgba(255, 220, 255, 0.6)'],
 			'scrollBar': true,
 
 			//scrolling
@@ -45,7 +45,7 @@ fullpage.init = function(callback) {
 
 			//design
 			'resize': false,
-			'paddingTop': '45px',
+			'paddingTop': '48px',
 
 			//events
 			'afterRender' : callback

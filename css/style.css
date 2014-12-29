@@ -1,11 +1,16 @@
 body {
 	font-size: 14pt;
-	background-image: url('../images/bg.jpg');
+	background-image: url('../images/bg-black.jpg');
 	background-size: cover;
 		-webkit-background-size: cover;
 		-moz-background-size: cover;
 		-o-background-size: cover;
 	background-attachment: fixed;
+}
+body.black,
+body.black .ui.header {
+	color: #fff;
+	color: rgba(255,255,255,.8);
 }
 
 *::-moz-selection {
@@ -22,7 +27,7 @@ body {
 	z-index: 9;
 	box-shadow: 0 0 10px #666;
 	border-radius: 0;
-	background: #fda;
+	background: #1B1C1D;
 }
 .ui.huge.menu .item {
 	font-size: 14pt;
@@ -62,8 +67,10 @@ body {
 .price:not(.special) > span.special { display: none; }
 
 /* #goods-window */
-.ui.basic.modal > .content > .description > .ui.header { color: #fff; }
-#goods-window > .content > .description > .segment { margin: .5rem 0; }
+.ui.modal,
+.ui.modal .ui.header { color: #000; color: rgba(0,0,0,.8); }
+.ui.basic.modal .ui.header { color: #fff; color: rgba(255,255,255,.8); }
+#goods-window > .content > .description > .segment { margin: .5rem 0; color: #000; color: rgba(0,0,0,.8); }
 #goods-window > .content > .description img { width: 100%; }
 #goods-window > .actions > div { margin-left: 0.75em; margin-right: 0.75em; }
 #goods-window .actions #selector { display: inline-block; }
@@ -86,11 +93,13 @@ body {
 	padding-right: 20px;
 }
 #cart a.ui.header { transition: color 0.2s ease 0s; }
+body.black #cart a.ui.header { color: #fff; color: rgba(255,255,255,.8); }
 #cart a.ui.header:hover { color:#00b2f3; }
 #cart .grid { margin-top: 0; margin-bottom: 0; }
 #cart .grid .column { font-size: 14pt; }
 #cart .grid .column:not(:first-child) { text-align: center; }
 #cart .grid .meta:before { content:"顏色/尺寸："; }
+body.black #cart .grid .meta { color: #fff; color: rgba(255,255,255,.8); }
 #cart .actions { text-align: right; }
 #cart .actions .total:before { content:"總金額：$"; }
 #cart .actions .total { font-size: 20pt; }
