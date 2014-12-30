@@ -10,12 +10,16 @@ if( isset($_SESSION['admin']) && $_SESSION['admin'] || isset($_POST['kevinptt'])
 	}
 	else {
 		$ret["errcode"] = 0;
-		if( isset($_GET['customer']) || isset($_POST['customer']) )
+		$ret["data"]["customer"] = getCustomer();
+		$ret["data"]["summary"] = getSummary();
+		/*
+		ig( isset($_GET['customer']) || isset($_POST['customer']) )
 			$ret["data"] = getCustomer();
 		else if( isset($_GET['summary']) || isset($_POST['summary']) )
 			$ret["data"] = getSummary();
 		else
 			$ret["data"] = getCustomer();
+		*/
 	}
 }
 else {

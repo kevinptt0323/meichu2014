@@ -26,7 +26,7 @@
 		<div class="container" id="main">
 			<div class="nav ui secondary pointing inverted menu">
 				<a class="item" href="?q=customer">訂單列表</a>
-				<a class="item" href="?q=goods&gid=1">梅竹衫</a>
+				<a class="item" href="?q=summary">商品統計</a>
 				<div class="right menu">
 					<span class="item">kevinptt，你好</span>
 					<a class="item" href="#">登出</a>

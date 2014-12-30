@@ -22,6 +22,7 @@ index.message.show = function(msg) {
 }
 admin = { };
 admin.init = function() {
+	this.query = "customer";
 	this.getData();
 },
 admin.getData = function() {
@@ -39,7 +40,7 @@ admin.getData = function() {
 			}
 			else {
 				obj.data = data["data"];
-				obj.makeTable();
+				obj.makeTable(obj.query);
 			}
 		},
 		error: function() {
@@ -48,15 +49,16 @@ admin.getData = function() {
 		}
 	});
 }
-admin.makeTable = function() {
+admin.makeTable = function(q) {
 	$table = $("<table></table>").addClass("ui striped compact table").attr("id", "#data");
 	var thead = "";
-	for(key in this.data[0])
+	var data = this.data[q];
+	for(key in data[0])
 		thead += "<th>" + key + "</th>"
 	thead += "<th></th><th></th>";
 
 	$table.append("<thead><tr>" + thead + "</tr></thead>");
-	this.data.forEach(function(elem) {
+	data.forEach(function(elem) {
 		var str = "";
 		for(key in elem) {
 			str += "<td>" + elem[key] + "</td>"
