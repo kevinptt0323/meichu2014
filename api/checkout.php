@@ -51,7 +51,8 @@ else {
 		$total -= (int)($poker_count/2) * 20;
 		$mysqli->query("UPDATE `Customer` SET `total` = '$total' WHERE `cid` = '$cid'");
 		$ret["errcode"] = 0;
-		$ret["msg"] = "結帳成功！請務必於指定時間前往攤位繳費。";
+		$ret["cid"] = $cid;
+		$ret["msg"] = "結帳成功！一共是 " . $total . " 元。<br />請務必於指定時間前往攤位繳費。<br />繳費時間: 1/5~1/9 中午及晚上<br />繳費地點：二餐女二";
 	}
 }
 echo json_encode($ret);
