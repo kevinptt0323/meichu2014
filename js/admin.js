@@ -29,7 +29,7 @@ admin.getData = function() {
 	var obj = this;
 	$.ajax({
 		type: "POST",
-		data: {kevinptt: true, customer: "all"}, 
+		data: {kevinptt: true},
 		dataType: "json",
 		url: "api/get_purchase.php",
 		success: function(b) {
@@ -53,20 +53,44 @@ admin.makeTable = function(q) {
 	$table = $("<table></table>").addClass("ui striped compact table").attr("id", "#data");
 	var thead = "";
 	var data = this.data[q];
-	for(key in data[0])
-		thead += "<th>" + key + "</th>"
-	thead += "<th></th><th></th>";
+	if( q=="customer" ) {
+		for(key in data[0])
+			thead += "<th>" + key + "</th>"
+		thead += "<th></th><th></th>";
 
-	$table.append("<thead><tr>" + thead + "</tr></thead>");
-	data.forEach(function(elem) {
-		var str = "";
-		for(key in elem) {
-			str += "<td>" + elem[key] + "</td>"
-		}
-		str += "<td>登記繳費</td><td>刪除</td>";
-		$table.append("<tr>" + str + "</tr>");
-	});
-	$(".content").append($table);
+		$table.append("<thead><tr>" + thead + "</tr></thead>");
+		data.forEach(function(elem) {
+			var str = "";
+			for(key in elem) {
+				str += "<td>" + elem[key] + "</td>"
+			}
+			str += "<td>登記繳費</td><td>刪除</td>";
+			$table.append("<tr>" + str + "</tr>");
+		});
+	}
+	else if( q=="summary" ) {
+		$table.removeClass("striped").addClass("celled structured");
+		for(key in data[0])
+			thead += "<th>" + key + "</th>"
+		thead += "<th>數量</th>";
+
+		$table.append("<thead><tr>" + thead + "</tr></thead>");
+		data.forEach(function(elem) {
+			var str = "";
+			var size = 0;
+			for(sub_item in elem["cnt"])
+				++size;
+			for(key in elem)
+				if( key!="cnt" )
+					str += "<td rowspan=\"" + size + "\">" + elem[key] + "</td>";
+			for(sub_item in elem["cnt"]) {
+				str += "<td>" + sub_item + "</td><td>" + elem["cnt"][sub_item] + "</td>";
+				$table.append("<tr>" + str + "</tr>");
+				str = "";
+			}
+		});
+	}
+	$(".content").html($table);
 }
 
 
