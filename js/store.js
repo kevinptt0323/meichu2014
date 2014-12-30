@@ -9,6 +9,7 @@ store.initProducts = function() {
 	$.ajax({
 		dataType: "json",
 		url: "api/goods.php",
+		timeout: 10000,
 		success: function(b) {
 			var data = b;
 			if( data["errcode"] ) {
@@ -310,6 +311,7 @@ store.cart.checkout.send = function() {
 		url: "api/checkout.php",
 		data: data,
 		dataType: "json",
+		timeout: 10000,
 		success: function(b) {
 			var data = b;
 			if( data["errcode"] ) {
