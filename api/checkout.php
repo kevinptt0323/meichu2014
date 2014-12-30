@@ -15,9 +15,9 @@ else if( $mysqli->connect_error ) {
 	$ret["msg"] = "資料庫錯誤，請稍後再試。";
 }
 else {
-	$name = $_POST["name"];
-	$studentID = $_POST["studentID"];
-	$phone = $_POST["phone"];
+	$name = escape($_POST["name"]);
+	$studentID = escape($_POST["studentID"]);
+	$phone = escape($_POST["phone"]);
 	$list = $_POST["list"];
 	$insert = "INSERT INTO `Customer` (
 		`time`, `name`, `studentID`, `phone`, `total`
@@ -55,6 +55,9 @@ else {
 	}
 }
 echo json_encode($ret);
+
+/* function */
+
 function get_data() {
 	global $mysqli;
 	$query = "SELECT * FROM `Goods` ORDER BY `gid` ASC";
@@ -98,6 +101,12 @@ function add_purchase($mysqli, $cid, $gid, $sub_id, $price, $num) {
 	}
 	$mysqli->query($insert);
 	return $price * $num;
+}
+function escape($str) {
+	global $mysqli;
+	$str = htmlspecialchars($str);
+	$str = $mysqli->real_escape_string($str);
+	return $str;
 }
 
 ?>
