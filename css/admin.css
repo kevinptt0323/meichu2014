@@ -23,6 +23,11 @@ body.black .ui.header {
 	margin: auto;
 	padding-bottom: 30px;
 }
+
+#global-message { z-index: 2000; }
+.ui.modal,
+.ui.modal .ui.header { color: #000; color: rgba(0,0,0,.8); }
+
 a {
 	color: #000;
 	text-decoration: none;
