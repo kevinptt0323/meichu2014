@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+		<meta property="og:description" content="國立交通大學乙未梅竹後援會 踏清健身，倒梅有理" />
+		<meta property="og:site_name" content="國立交通大學乙未梅竹後援會" />
+		<meta property="og:type" content="article" />
+		<meta property="og:url" content="http://meichu2015.nctucs.net/" />
+		<meta property='og:image' content="" />
+		<title>國立交通大學乙未梅竹後援會</title>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+		<script src="js/jquery.slimscroll.min.js"></script>
+		<script src="js/jquery.fullPage.min.js"></script>
+		<script src="js/jquery.cookie.js"></script>
+		<script src="js/semantic.min.js"></script>
+		<script src="js/waypoints.js"></script>
+		<script src="js/main.js"></script>
+		<script src="js/store.js"></script>
+		<script src="js/activity.js"></script>
+		<link rel="stylesheet" href="css/normalize.css" />
+		<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+		<link rel="stylesheet" href="css/jquery.fullPage.css" />
+		<link rel="stylesheet" href="css/semantic.min.css" />
+		<link rel="stylesheet" href="css/style.css" />
+	</head>
+	<body class="black">
+		<div class="ui small modal" id="global-message"> </div>
+		<!-- beginning of navigation bar -->
+		<div class="ui large inverted black menu peek" id="Nav">
+			<div class="right menu"> </div>
+			<div class="right menu">
+				<a class="item" href="#index"> <i class="home icon"></i> 主頁 </a>
+				<div class="ui item">
+					<div class="ui right top pointing dropdown">
+						<i class="gift icon"></i> 梅竹商店
+						<div class="menu">
+							<a class="item" href="#store"> <i class="block layout icon"></i> 商品一覽 </a>
+							<a class="item" href="#store/1"> <i class="shop icon"></i> 購物車 </a>
+						</div>
+					</div>
+				</div>
+				<div class="ui item activity">
+					<div class="ui right top pointing dropdown">
+						<i class="tasks icon"></i> 活動
+						<div class="menu"> </div>
+					</div>
+				</div>
+				<a class="item" href="//fb.me/nctu.meichu" target="_blank"> <i class="facebook icon"></i> 粉絲專頁 </a>
+			</div>
+		</div>
+		<!-- end of navigation bar -->
+		<!-- beginning of fullpage -->
+		<div id="fullpage">
+			<div class="index section">
+				<div class="ui basic compact segment center title">
+					<h1 class="ui header"> 國立交通大學乙未梅竹後援會 </h1>
+					<div class="ui inverted divider"></div>
+					<h2>梅竹商品‧隆重上市</h2>
+				</div>
+			</div>
+			<div class="store section">
+				<div class="ui modal" id="goods-window"> </div>
+				<div class="ui modal" id="checkout-window">
+					<i class="close icon"></i>
+					<div class="header"> 結帳 </div>
+					<div class="content">
+						<div class="ui dimmer">
+							<div class="ui text loader">送出資料中...</div>
+						</div>
+						<div class="ui form">
+							<div class="four fields">
+								<div class="field">
+									<label>姓名</label>
+									<div class="ui labeled input">
+										<input name="name" class="name" placeholder="請輸入真實姓名" type="text" tabindex="1" autocomplete="off">
+										<div class="ui corner label"> <i class="asterisk icon"></i> </div>
+									</div>
+								</div>
+								<div class="field">
+									<label>學號</label>
+									<div class="ui labeled input">
+										<input name="studentID" class="studentID" placeholder="請輸入學號" type="text" tabindex="2" autocomplete="off">
+										<div class="ui corner label"> <i class="asterisk icon"></i> </div>
+									</div>
+								</div>
+								<div class="field">
+									<label>電話</label>
+									<div class="ui labeled input">
+										<input name="phone" class="phone" placeholder="請輸入電話" type="text" tabindex="3" autocomplete="off">
+										<div class="ui corner label"> <i class="asterisk icon"></i> </div>
+									</div>
+								</div>
+								<div class="field">
+									<label>email</label>
+									<div class="ui labeled input">
+										<input name="email" class="email" placeholder="請輸入e-mail" type="text" tabindex="4" autocomplete="off">
+										<div class="ui corner label"> <i class="asterisk icon"></i> </div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="actions">
+						<span>請記得再次確認訂購的商品是否正確。</span>
+						<div class="ui positive button"> <i class="shop icon"></i> 結帳</div>
+					</div>
+				</div>
+				<div class="slide">
+					<div class="ui doubling cards" id="goods"> </div>
+				</div>
+				<div class="slide">
+					<div id="cart">
+						<div class="ui divided items">
+							<div class="item">
+								<div class="image"><img></div>
+								<div class="content">
+									<div class="ui grid">
+										<div class="seven wide column"> 商品名稱 </div>
+										<div class="four wide column"> 單價</div>
+										<div class="two wide column"> 數量 </div>
+										<div class="two wide column"> 小計 </div>
+										<div class="one wide column"> 操作 </div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ui inverted divider"></div>
+						<div class="actions">
+							<div class="total ui large header"> 0 </div>
+							<div class="ui positive labeled icon large button checkout"> <i class="shop icon"></i> 結帳 </div>
+							<div class="ui negative labeled icon large button clear"> <i class="refresh icon"></i> 清空購物車 </div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="activity section"> </div>
+		</div>
+		<!-- end of fullpage -->
+	</body>
+</html>
+
