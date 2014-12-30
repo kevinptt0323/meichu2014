@@ -26,7 +26,6 @@ admin.init = function() {
 	this.getData();
 }
 admin.getData = function() {
-	var obj = this;
 	$.ajax({
 		type: "POST",
 		data: {kevinptt: true},
@@ -35,29 +34,29 @@ admin.getData = function() {
 		success: function(b) {
 			var data = b;
 			if( data["errcode"] ) {
-				obj.data = [];
+				admin.data = [];
 				index.message.show(data["msg"]);
 			}
 			else {
-				obj.data = data["data"];
-				obj.makeTable(obj.query);
+				admin.data = data["data"];
+				admin.makeTable(admin.query);
 			}
 		},
 		error: function() {
-			obj.data = [];
+			admin.data = [];
 			index.message.show("資料讀取發生錯誤，請稍後再試。");
 		}
 	});
 }
-admin.makeTable = function(q) {
+admin.makeTable = function(q, opt) {
 	admin.query = q;
-	$table = $("<table></table>").addClass("ui striped compact table").attr("id", "#data");
+	$table = $("<table></table>").addClass("ui striped compact collapsing table").attr("id", "#data");
 	var thead = "";
 	var data = this.data[q];
 	if( q=="customer" ) {
 		for(key in data[0])
 			thead += "<th>" + key + "</th>"
-		thead += "<th></th><th></th>";
+		thead += "<th></th><th></th><th></th>";
 
 		$table.append("<thead><tr>" + thead + "</tr></thead>");
 		data.forEach(function(elem) {
@@ -65,7 +64,7 @@ admin.makeTable = function(q) {
 			for(key in elem) {
 				str += "<td>" + elem[key] + "</td>"
 			}
-			str += "<td>登記繳費</td><td><a href='javascript:admin.del(" + elem["cid"] + ")'>刪除</a></td>";
+			str += "<td><a href='javascript:admin.show(" + elem["cid"] + ")'>詳細資料</a></td><td><a>登記繳費</a></td><td><a href='javascript:admin.del(" + elem["cid"] + ")'>刪除</a></td>";
 			$table.append("<tr>" + str + "</tr>");
 		});
 	}
@@ -91,6 +90,21 @@ admin.makeTable = function(q) {
 			}
 		});
 	}
+	else if( q=="purchase" ) {
+		var cid = opt;
+		var customer = this.data["customer"].filter(function(elem) { return elem["cid"] == cid; })[0];
+		thead = "<tr><th colspan='3'>" +  customer["name"]  + " / " + customer["studentID"]  + " / " + customer["phone"] + "</th></tr><tr>";
+		for(key in data[0])
+			thead += "<th>" + key + "</th>"
+		thead += "</tr>";
+		$table.append("<thead>" + thead + "</thead>");
+		data.forEach(function(item) {
+			var str = "";
+			for( key in item )
+				str += "<td>" + item[key] + "</td>";
+			$table.append("<tr>" + str + "</tr>");
+		});
+	}
 	$("#main > .content").html($table);
 	console.log(this.query);
 }
@@ -112,11 +126,35 @@ admin.del = function(cid) {
 				}
 			},
 			error: function() {
-				obj.data = [];
+				admin.data = [];
 				index.message.show("資料讀取發生錯誤，請稍後再試。");
 			}
 		});
 	}
+}
+admin.show = function(cid) {
+	$.ajax({
+		type: "POST",
+		data: {kevinptt: true, cid: cid},
+		dataType: "json",
+		url: "api/get_purchase.php",
+		success: function(b) {
+			var data = b;
+			if( data["errcode"] ) {
+				admin.data["purchase"] = [];
+				index.message.show(data["msg"]);
+			}
+			else {
+				console.log(data["data"]["purchase"]);
+				admin.data["purchase"] = data["data"]["purchase"];
+				admin.makeTable("purchase", cid);
+			}
+		},
+		error: function() {
+			admin.data["purchase"] = [];
+			index.message.show("資料讀取發生錯誤，請稍後再試。");
+		}
+	});
 }
 
 
