@@ -1,0 +1,35 @@
+html, body {
+	font-size: 12pt;
+}
+body {
+	width: 100%;
+	background-image: url('../images/bg-black.jpg');
+	background-size: cover;
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+	background-attachment: fixed;
+}
+body.black,
+body.black .ui.header {
+	color: #fff;
+	color: rgba(255,255,255,.8);
+}
+
+#main {
+	position: relative;
+	top: 10px;
+	width: 80%;
+	margin: auto;
+	padding-bottom: 30px;
+}
+a {
+	color: #000;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+td .ui.button {
+	width: 50px;
+}
