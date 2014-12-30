@@ -2,9 +2,13 @@
 
 require_once('../include/auth.php');
 global $mysqli;
-if( !isset($_POST["name"]) || !isset($_POST["studentID"]) || !isset($_POST["phone"]) || !isset($_POST["list"]) ) {
+if( !isset($_POST["name"]) || !isset($_POST["studentID"]) || !isset($_POST["phone"]) ) {
 	$ret["errcode"] = 1;
 	$ret["msg"] = "請務必輸入完整資料。";
+}
+else if( !isset($_POST["list"]) ) {
+	$ret["errcode"] = 1;
+	$ret["msg"] = "購物車內無商品！";
 }
 else if( $mysqli->connect_error ) {
 	$ret["errcode"] = 1;
@@ -39,6 +43,7 @@ else {
 		else {
 			$elem2 = $goods[$elem["gid"]];
 			$price = isset($elem2["special"]) ? $elem2["special"] : $elem2["price"];
+			if( $elem["gid"] == 7 ) $poker_count += $elem["num"];
 			$total += add_purchase($mysqli, $cid, $elem["gid"], isset($elem["sub-id"])?$elem["sub-id"]:null, $price, $elem["num"]);
 		}
 	}
@@ -64,7 +69,6 @@ function get_data() {
 }
 function add_purchase($mysqli, $cid, $gid, $sub_id, $price, $num) {
 	
-	if( $gid == 7 ) $poker_count += $num;
 	if( $gid == 8 ) {
 		add_purchase($mysqli, $cid, 1, array($sub_id[0], $sub_id[1]), 0, $num);
 		add_purchase($mysqli, $cid, 2, $sub_id[2], 0, $num);
