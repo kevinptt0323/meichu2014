@@ -1,5 +1,6 @@
 <?php
-	if( !isset($_GET['kevinptt']) ) die();
+	require_once('include/auth.php');
+	if( !isLogin() ) die();
 ?>
 <!DOCTYPE html>
 <html>

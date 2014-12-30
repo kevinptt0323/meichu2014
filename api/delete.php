@@ -2,7 +2,7 @@
 require_once('../include/auth.php');
 session_start();
 
-if( isset($_SESSION['admin']) && $_SESSION['admin'] || isset($_POST['kevinptt']) || isset($_GET['kevinptt']) ) {
+if( isLogin() ) {
 	global $mysqli;
 	if( $mysqli->connect_error ) {
 		$ret["errcode"] = 1;
