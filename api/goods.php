@@ -19,6 +19,33 @@ else {
 		array_push($ret["goods"], $row);
 	}
 	$data->free();
+
+	if( hideOrangeBlanket() )
+		$ret["goods"][2]["sub-id"][0] = array("黃");
 }
 echo json_encode($ret);
+
+function hideOrangeBlanket() {
+	$purchases = getPurchaseGID(3);
+	$cnt = 0;
+	foreach( $purchases as $purchase ) {
+		if( isset($purchase["sub-id"]) && $purchase["sub-id"]=="橘" )
+			$cnt++;
+	}
+	return $cnt>=100;
+}
+function getPurchaseGID($gid) {
+	global $mysqli;
+	$query = "SELECT * FROM `Purchase` WHERE `gid` = $gid";
+	$result = $mysqli->query($query);
+	$array = getArray($result);
+	$result->free();
+	return $array;
+}
+function getArray($mysql_query) {
+	$ret = array();
+	while( $row = $mysql_query->fetch_assoc() )
+		array_push($ret, $row);
+	return $ret;
+}
 ?>

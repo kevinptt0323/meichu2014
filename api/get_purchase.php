@@ -18,6 +18,10 @@ if( isLogin() ) {
 		}
 	}
 }
+else if( isset($_POST['summary']) ) {
+	$ret["errcode"] = 0;
+	$ret["data"]["summary"] = getSummary();
+}
 else {
 	$ret["errcode"] = 1;
 	$ret["msg"] = "請登入。";
