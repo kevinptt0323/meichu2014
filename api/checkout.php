@@ -2,7 +2,7 @@
 
 require_once('../include/auth.php');
 global $mysqli;
-if( !isset($_POST["name"]) || !isset($_POST["studentID"]) || !isset($_POST["phone"]) ) {
+if( !isset($_POST["name"]) || !isset($_POST["studentID"]) || !isset($_POST["phone"]) || !isset($_POST["email"]) ) {
 	$ret["errcode"] = 1;
 	$ret["msg"] = "請務必輸入完整資料。";
 }
@@ -18,11 +18,12 @@ else {
 	$name = escape($_POST["name"]);
 	$studentID = escape($_POST["studentID"]);
 	$phone = escape($_POST["phone"]);
+	$email = escape($_POST["email"]);
 	$list = $_POST["list"];
 	$insert = "INSERT INTO `Customer` (
-		`time`, `name`, `studentID`, `phone`, `total`
+		`time`, `name`, `studentID`, `phone`, `email`, `total`
 		) VALUES (
-		now(), '$name', '$studentID', '$phone', 0
+		now(), '$name', '$studentID', '$phone', '$email', 0
 	)";
 	if( $mysqli->query($insert) );
 	else {

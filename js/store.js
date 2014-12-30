@@ -156,7 +156,8 @@ store.cart.init = function() {
 	$("#checkout-window .form").form({
 		name: { identifier: 'name', rules: [ { type: 'empty', } ] },
 		studentID: { identifier: 'studentID', rules: [ { type: 'empty', } ] },
-		phone: { identifier: 'phone', rules: [ { type: 'empty', } ] }
+		phone: { identifier: 'phone', rules: [ { type: 'empty', } ] },
+		email: { identifier: 'email', rules: [ { type: 'email', } ] }
 	});
 },
 store.cart.initCookie = function() {
@@ -299,6 +300,7 @@ store.cart.checkout.send = function() {
 		"name" : $inputs.find("input.name").val(),
 		"studentID" : $inputs.find("input.studentID").val(),
 		"phone" : $inputs.find("input.phone").val(),
+		"email" : $inputs.find("input.email").val(),
 		"list" : store.cart.list
 	};
 	console.log(data);
