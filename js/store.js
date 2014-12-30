@@ -293,6 +293,7 @@ store.cart.checkout.send = function() {
 		index.message.show("請務必輸入完整資料！");
 		return false;
 	}
+	$("#checkout-window > .content > .ui.dimmer").addClass("active");
 	$("#checkout-window .actions .positive.button").unbind("click");
 	var $checkout = $("#checkout-window");
 	var $inputs = $checkout.find(".ui.input");
@@ -325,6 +326,7 @@ store.cart.checkout.send = function() {
 			index.message.show("伺服器發生錯誤，請稍後再試。");
 		},
 		complete: function() {
+			$("#checkout-window > .content > .ui.dimmer").removeClass("active");
 			$("#checkout-window .actions .positive.button").bind("click", store.cart.checkout.send);
 		}
 	});
