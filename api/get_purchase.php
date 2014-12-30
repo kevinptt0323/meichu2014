@@ -10,16 +10,12 @@ if( isLogin() ) {
 	}
 	else {
 		$ret["errcode"] = 0;
-		$ret["data"]["customer"] = getCustomer();
-		$ret["data"]["summary"] = getSummary();
-		/*
-		ig( isset($_GET['customer']) || isset($_POST['customer']) )
-			$ret["data"] = getCustomer();
-		else if( isset($_GET['summary']) || isset($_POST['summary']) )
-			$ret["data"] = getSummary();
-		else
-			$ret["data"] = getCustomer();
-		*/
+		if ( isset($_POST['cid']) )
+			$ret["data"]["purchase"] = getPurchaseCID($_POST['cid']);
+		else {
+			$ret["data"]["customer"] = getCustomer();
+			$ret["data"]["summary"] = getSummary();
+		}
 	}
 }
 else {
@@ -42,7 +38,7 @@ function getSummary() {
 	$goods = getGoods();
 	$array = array();
 	foreach( $goods as $item ) {
-		$purchases = getPurchases($item["gid"]);
+		$purchases = getPurchaseGID($item["gid"]);
 		$elem["gid"] = $item["gid"];
 		$elem["name"] = $item["name"];
 		$elem["cnt"] = array();
@@ -82,16 +78,26 @@ function getGoods() {
 	$result->free();
 	return $array;
 }
-function getPurchases($gid) {
+function getPurchaseGID($gid) {
 	global $mysqli;
 	$query = "SELECT * FROM `Purchase` WHERE `gid` = $gid";
 	$result = $mysqli->query($query);
 	$array = getArray($result);
-	/*
-	foreach( $array as &$purchase )
-		if( isset($purchase["sub-id"]) )
-			$purchase["sub-id"] = explode("-",$purchase["sub-id"]);
-			*/
+	$result->free();
+	return $array;
+}
+function getPurchaseCID($cid) {
+	global $mysqli;
+	$query = "SELECT * FROM `Purchase` WHERE `cid` = $cid";
+	$result = $mysqli->query($query);
+	$array = getArray($result);
+	$goods_tmp = getGoods();
+	foreach( $goods_tmp as $elem ) {
+		$goods[$elem["gid"]] = $elem;
+	}
+	foreach( $array as &$elem ) {
+		$elem = ["name" => $goods[$elem["gid"]]["name"], "sub-id" => $elem["sub-id"], "num" => $elem["num"] ];
+	}
 	$result->free();
 	return $array;
 }
