@@ -19,9 +19,12 @@ body.black .ui.header {
 #main {
 	position: relative;
 	top: 10px;
-	width: 80%;
+	width: 90%;
 	margin: auto;
 	padding-bottom: 30px;
+}
+#main > .content > table {
+	margin: auto;
 }
 
 #global-message { z-index: 2000; }
