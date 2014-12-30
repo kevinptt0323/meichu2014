@@ -1,4 +1,4 @@
-index = { };
+index = { }
 index.init = function() {
 	$("#global-message").modal({allowMultiple: true, transition: 'fade up'});
 	admin.init();
@@ -20,11 +20,11 @@ index.message.show = function(msg) {
 			return false;
 		});
 }
-admin = { };
+admin = { }
 admin.init = function() {
 	this.query = "customer";
 	this.getData();
-},
+}
 admin.getData = function() {
 	var obj = this;
 	$.ajax({
@@ -50,6 +50,7 @@ admin.getData = function() {
 	});
 }
 admin.makeTable = function(q) {
+	admin.query = q;
 	$table = $("<table></table>").addClass("ui striped compact table").attr("id", "#data");
 	var thead = "";
 	var data = this.data[q];
@@ -64,7 +65,7 @@ admin.makeTable = function(q) {
 			for(key in elem) {
 				str += "<td>" + elem[key] + "</td>"
 			}
-			str += "<td>登記繳費</td><td>刪除</td>";
+			str += "<td>登記繳費</td><td><a href='javascript:admin.del(" + elem["cid"] + ")'>刪除</a></td>";
 			$table.append("<tr>" + str + "</tr>");
 		});
 	}
@@ -90,8 +91,34 @@ admin.makeTable = function(q) {
 			}
 		});
 	}
-	$(".content").html($table);
+	$("#main > .content").html($table);
+	console.log(this.query);
 }
+admin.del = function(cid) {
+	if( confirm("確定刪除編號 " + cid + " ?") && confirm("真的不後悔刪除編號 " + cid + " ?") ) {
+		$.ajax({
+			type: "POST",
+			data: {kevinptt: true, cid: cid},
+			dataType: "json",
+			url: "api/delete.php",
+			success: function(b) {
+				var data = b;
+				if( data["errcode"] ) {
+					index.message.show(data["msg"]);
+				}
+				else {
+					index.message.show(data["msg"]);
+					admin.getData();
+				}
+			},
+			error: function() {
+				obj.data = [];
+				index.message.show("資料讀取發生錯誤，請稍後再試。");
+			}
+		});
+	}
+}
+
 
 
 $(index.init);

@@ -9,9 +9,9 @@ if( isset($_SESSION['admin']) && $_SESSION['admin'] || isset($_POST['kevinptt'])
 		$ret["msg"] = "資料庫錯誤，請稍後再試。";
 	}
 	else {
-		if( deleteCID($_GET['cid']) ) {
+		if( isset($_POST['cid']) && deleteCID($_POST['cid']) ) {
 			$ret["errcode"] = 0;
-			$ret["msg"] = "刪除成功";
+			$ret["msg"] = "刪除編號" . $_POST['cid'] . "成功";
 		}
 		else {
 			$ret["errcode"] = 1;

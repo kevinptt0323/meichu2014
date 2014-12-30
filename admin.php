@@ -29,11 +29,10 @@
 				<a class="item" href="javascript:admin.makeTable('summary')">商品統計</a>
 				<div class="right menu">
 					<span class="item">kevinptt，你好</span>
-					<a class="item" href="#">登出</a>
+					<a class="item" href="">登出</a>
 				</div>
 			</div>
-			<div class="content">
-			</div>
+			<div class="content"> </div>
 		</div>
 	</body>
 </html>
