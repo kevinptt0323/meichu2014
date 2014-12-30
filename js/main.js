@@ -10,7 +10,10 @@ index.init = function() {
 	$("#global-message").modal({allowMultiple: true, transition: 'fade up'});
 }
 index.message = { };
-index.message.show = function(msg) {
+
+// show msg and hide other modals if !allowMultiple
+index.message.show = function(msg, allowMultiple) {
+	allowMultiple = !( (typeof allowMultiple === "boolean") && !allowMultiple );
 	console.log(msg);
 	var $obj = $("#global-message");
 	$obj.html("");
@@ -18,13 +21,24 @@ index.message.show = function(msg) {
 	$("<div></div>").addClass("actions").html(
 		$("<div></div>").addClass("ui primary button").html("OK")
 	).appendTo($obj);
-	$obj.modal('show');
-	$obj.find(".ui.button")
-		.unbind('click')
-		.bind('click', function() {
-			$obj.modal("hide");
-			return false;
-		});
+	if( allowMultiple ) {
+		$obj.modal('show');
+		$obj.find(".ui.button")
+			.unbind('click')
+			.bind('click', function() {
+				$obj.modal("hide");
+				return false;
+			});
+	}
+	else {
+		$obj.modal({allowMultiple: false, transition: 'fade up'}).modal('show');
+		$obj.find(".ui.button")
+			.unbind('click')
+			.bind('click', function() {
+				$obj.modal({allowMultiple: true, transition: 'fade up'}).modal('hide');
+				return false;
+			});
+	}
 }
 
 fullpage.init = function(callback) {

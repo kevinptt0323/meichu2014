@@ -282,18 +282,18 @@ store.cart.checkout.show = function() {
 		return false;
 	}
 	var $checkout = $("#checkout-window");
+	$('.modal').modal('hide');
 	$checkout.modal('show');
 	$checkout.find(".actions .positive.button")
 		.unbind("click")
 		.bind("click", this.send);
 },
 store.cart.checkout.send = function() {
-	$("#checkout-window .actions .positive.button").unbind("click");
 	if( !$("#checkout-window .form").form('validate form') ) {
 		index.message.show("請務必輸入完整資料！");
-		$("#checkout-window .actions .positive.button").bind("click", store.cart.checkout.send);
 		return false;
 	}
+	$("#checkout-window .actions .positive.button").unbind("click");
 	var $checkout = $("#checkout-window");
 	var $inputs = $checkout.find(".ui.input");
 	var data = {
@@ -316,7 +316,7 @@ store.cart.checkout.send = function() {
 				index.message.show(data["msg"]);
 			}
 			else {
-				index.message.show(data["msg"]);
+				index.message.show(data["msg"], false);
 				store.cart.list = [];
 				store.cart.update();
 			}
