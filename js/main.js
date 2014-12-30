@@ -13,7 +13,7 @@ index.message = { };
 index.message.show = function(msg) {
 	console.log(msg);
 	var $obj = $("#global-message");
-	$obj.html('<i class="close icon"></i>');
+	$obj.html("");
 	$("<div></div>").addClass("content").html(msg).appendTo($obj);
 	$("<div></div>").addClass("actions").html(
 		$("<div></div>").addClass("ui primary button").html("OK")
