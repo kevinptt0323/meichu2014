@@ -39,7 +39,7 @@ admin.getData = function() {
 			}
 			else {
 				obj.data = data["data"];
-				console.log(obj.data);
+				obj.makeTable();
 			}
 		},
 		error: function() {
@@ -47,6 +47,24 @@ admin.getData = function() {
 			index.message.show("資料讀取發生錯誤，請稍後再試。");
 		}
 	});
+}
+admin.makeTable = function() {
+	$table = $("<table></table>").addClass("ui striped compact table").attr("id", "#data");
+	var thead = "";
+	for(key in this.data[0])
+		thead += "<th>" + key + "</th>"
+	thead += "<th></th><th></th>";
+
+	$table.append("<thead><tr>" + thead + "</tr></thead>");
+	this.data.forEach(function(elem) {
+		var str = "";
+		for(key in elem) {
+			str += "<td>" + elem[key] + "</td>"
+		}
+		str += "<td>登記繳費</td><td>刪除</td>";
+		$table.append("<tr>" + str + "</tr>");
+	});
+	$(".content").append($table);
 }
 
 

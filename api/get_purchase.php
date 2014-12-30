@@ -10,9 +10,9 @@ if( isset($_SESSION['admin']) && $_SESSION['admin'] || isset($_POST['kevinptt'])
 	}
 	else {
 		$users = getUsers();
-		//$gid = 1; //$gid = $_POST["gid"];
 		$ret["errcode"] = 0;
 		$ret["data"] = $users;
+		//$gid = 1; //$gid = $_POST["gid"];
 		//$query = "SELECT * FROM `Purchase` WHERE `gid` = $gid LIMIT 1";
 	}
 }

@@ -14,9 +14,7 @@
 		<title>國立交通大學乙未梅竹後援會</title>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-		<script src="js/jquery.cookie.js"></script>
 		<script src="js/semantic.min.js"></script>
-		<script src="js/waypoints.js"></script>
 		<script src="js/admin.js"></script>
 		<link rel="stylesheet" href="css/normalize.css" />
 		<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
