@@ -90,6 +90,11 @@ body.black .ui.header {
 #cart > .items > .item {
 	padding-left: 20px;
 	padding-right: 20px;
+	cursor: pointer;
+	transition: background .2s;
+}
+#cart > .items > .item:not(:first-child):hover {
+	background: rgba(255,255,255,.3);
 }
 #cart a.ui.header { transition: color 0.2s ease 0s; }
 body.black #cart a.ui.header { color: #fff; color: rgba(255,255,255,.8); }

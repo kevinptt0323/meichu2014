@@ -266,8 +266,8 @@ store.cart.update = function() {
 
 	/* events */
 	var obj = this;
-	$cart.find(".ui.header").on("click", function() {
-		store.view($(this).closest(".item").attr("data-gid"));
+	$cart.find(".item").on("click", function() {
+		store.view($(this).attr("data-gid"));
 	});
 	$cart.find(".close.icon").on("click", function() {
 		obj.remove($(this).closest(".item").attr("data-index"));
