@@ -20,8 +20,10 @@ else {
 	}
 	$data->free();
 
-	if( hideOrangeBlanket() )
+	if( hideOrangeBlanket() ) {
 		$ret["goods"][2]["sub-id"][0] = array("黃");
+		$ret["goods"][7]["sub-id"][3] = array("黃");
+	}
 }
 echo json_encode($ret);
 
