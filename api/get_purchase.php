@@ -35,6 +35,8 @@ function getCustomer() {
 	$query = "SELECT * FROM `Customer` ORDER BY cid ASC";
 	$result = $mysqli->query($query);
 	$array = getArray($result);
+	foreach( $array as &$customer )
+		$customer["purchase"] = getPurchaseCID($customer["cid"]);
 	$result->free();
 	return $array;
 }

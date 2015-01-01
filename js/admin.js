@@ -56,15 +56,27 @@ admin.makeTable = function(q, opt) {
 	if( q=="customer" ) {
 		for(key in data[0])
 			thead += "<th>" + key + "</th>"
-		thead += "<th></th><th></th><th></th>";
+		thead += "<th></th><th></th>";
 
 		$table.append("<thead><tr>" + thead + "</tr></thead>");
 		data.forEach(function(elem) {
 			var str = "";
 			for(key in elem) {
-				str += "<td>" + elem[key] + "</td>"
+				if( key!="purchase" )
+					str += "<td>" + elem[key] + "</td>"
+				else {
+					var purchases = "";
+					elem[key].forEach(function(item) {
+						for( key2 in item )
+							if( item[key2] )
+								purchases += item[key2] + " / ";
+						purchases = purchases.slice(0, -3) + "<br />";
+					});
+					str += "<td>" + purchases + "</td>"
+				}
+
 			}
-			str += "<td><a href='javascript:admin.show(" + elem["cid"] + ")'>詳細資料</a></td><td><a>登記繳費</a></td><td><a href='javascript:admin.del(" + elem["cid"] + ")'>刪除</a></td>";
+			str += "<td><a>登記繳費</a></td><td><a href='javascript:admin.del(" + elem["cid"] + ")'><i class='close icon'></i></a></td>";
 			$table.append("<tr>" + str + "</tr>");
 		});
 	}
