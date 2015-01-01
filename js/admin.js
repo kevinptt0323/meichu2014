@@ -56,14 +56,14 @@ admin.makeTable = function(q, opt) {
 	if( q=="customer" ) {
 		for(key in data[0])
 			thead += "<th>" + key + "</th>"
-		thead += "<th></th><th></th>";
+		thead += "<th>登記繳費</th><th>登記領貨</th><th>刪除</th>";
 
 		$table.append("<thead><tr>" + thead + "</tr></thead>");
 		data.forEach(function(elem) {
 			var str = "";
 			for(key in elem) {
 				if( key!="purchase" )
-					str += "<td>" + elem[key] + "</td>"
+					str += "<td>" + (elem[key]||"x") + "</td>"
 				else {
 					var purchases = "";
 					elem[key].forEach(function(item) {
@@ -76,7 +76,7 @@ admin.makeTable = function(q, opt) {
 				}
 
 			}
-			str += "<td><a>登記繳費</a></td><td><a href='javascript:admin.del(" + elem["cid"] + ")'><i class='close icon'></i></a></td>";
+			str += "<td><a href='javascript:admin.pay(" + elem["cid"] + ")'><i class='dollar icon'></i></a></td><td><a href='javascript:admin.receive(" + elem["cid"] + ")'><i class='gift icon'></i></a></td><td><a href='javascript:admin.del(" + elem["cid"] + ")'><i class='remove icon'></i></a></td>";
 			$table.append("<tr>" + str + "</tr>");
 		});
 	}
@@ -124,9 +124,9 @@ admin.del = function(cid) {
 	if( confirm("確定刪除編號 " + cid + " ?") && confirm("真的不後悔刪除編號 " + cid + " ?") ) {
 		$.ajax({
 			type: "POST",
-			data: {kevinptt: true, cid: cid},
+			data: {kevinptt: true, delete: true, cid: cid},
 			dataType: "json",
-			url: "api/delete.php",
+			url: "api/operation.php",
 			success: function(b) {
 				var data = b;
 				if( data["errcode"] ) {
@@ -144,7 +144,8 @@ admin.del = function(cid) {
 		});
 	}
 }
-admin.show = function(cid) {
+admin.reloadCID = function(cid) {
+	var retData = [];
 	$.ajax({
 		type: "POST",
 		data: {kevinptt: true, cid: cid},
@@ -153,20 +154,68 @@ admin.show = function(cid) {
 		success: function(b) {
 			var data = b;
 			if( data["errcode"] ) {
-				admin.data["purchase"] = [];
+				retData = [];
 				index.message.show(data["msg"]);
 			}
 			else {
-				console.log(data["data"]["purchase"]);
-				admin.data["purchase"] = data["data"]["purchase"];
+				retData = data["data"]["purchase"];
 				admin.makeTable("purchase", cid);
 			}
 		},
 		error: function() {
-			admin.data["purchase"] = [];
+			retData = [];
 			index.message.show("資料讀取發生錯誤，請稍後再試。");
 		}
 	});
+	return retData;
+}
+admin.pay = function(cid) {
+	if( confirm("確定登記編號" + cid + "繳費?")  ) {
+		$.ajax({
+			type: "POST",
+			data: {kevinptt: true, pay: true, cid: cid},
+			dataType: "json",
+			url: "api/operation.php",
+			success: function(b) {
+				var data = b;
+				if( data["errcode"] ) {
+					index.message.show(data["msg"]);
+				}
+				else {
+					index.message.show(data["msg"]);
+					admin.getData();
+				}
+			},
+			error: function() {
+				admin.data = [];
+				index.message.show("資料讀取發生錯誤，請稍後再試。");
+			}
+		});
+	}
+}
+admin.receive = function(cid) {
+	if( confirm("確定登記編號 " + cid + "領貨?")  ) {
+		$.ajax({
+			type: "POST",
+			data: {kevinptt: true, receive: true, cid: cid},
+			dataType: "json",
+			url: "api/operation.php",
+			success: function(b) {
+				var data = b;
+				if( data["errcode"] ) {
+					index.message.show(data["msg"]);
+				}
+				else {
+					index.message.show(data["msg"]);
+					admin.getData();
+				}
+			},
+			error: function() {
+				admin.data = [];
+				index.message.show("資料讀取發生錯誤，請稍後再試。");
+			}
+		});
+	}
 }
 
 
