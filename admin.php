@@ -29,6 +29,12 @@
 				<a class="item" href="javascript:admin.makeTable('customer')">訂單列表</a>
 				<a class="item" href="javascript:admin.makeTable('summary')">商品統計</a>
 				<div class="right menu">
+					<span class="item">
+						<div class="ui inverted transparent icon input">
+							<input type="text" id="search" placeholder="搜尋姓名" autocomplete="off">
+							<i class="search icon"></i>
+						</div>
+					</span>
 					<span class="item">kevinptt，你好</span>
 					<a class="item" href="">登出</a>
 				</div>

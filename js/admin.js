@@ -24,6 +24,12 @@ admin = { }
 admin.init = function() {
 	this.query = "customer";
 	this.getData();
+	$("#search").on('change', function() {
+		if( $("#search").val()=="" )
+			admin.makeTable("customer");
+		else
+			admin.makeTable("customer", $("#search").val());
+	});
 }
 admin.getData = function() {
 	$.ajax({
@@ -60,6 +66,7 @@ admin.makeTable = function(q, opt) {
 
 		$table.append("<thead><tr>" + thead + "</tr></thead>");
 		data.forEach(function(elem) {
+			if( typeof opt !== "undefined" && elem["name"].search(opt)==-1 ) return;
 			var str = "";
 			for(key in elem) {
 				if( key!="purchase" )
@@ -117,7 +124,7 @@ admin.makeTable = function(q, opt) {
 			$table.append("<tr>" + str + "</tr>");
 		});
 	}
-	$("#main > .content").html($table);
+	$table.hide().appendTo($("#main > .content").html("")).fadeIn(500);
 	console.log(this.query);
 }
 admin.del = function(cid) {
