@@ -83,6 +83,16 @@ function add_purchase($mysqli, $cid, $gid, $sub_id, $price, $num) {
 		add_purchase($mysqli, $cid, 6, null, 0, $num);
 		$sub_id = null;
 	}
+	else if( $gid == 9 ) {
+		add_purchase($mysqli, $cid, 1, array($sub_id[0], $sub_id[1]), 0, $num);
+		add_purchase($mysqli, $cid, 2, $sub_id[2], 0, $num);
+		add_purchase($mysqli, $cid, 4, null, 0, $num);
+		add_purchase($mysqli, $cid, 5, $sub_id[3], 0, $num);
+		add_purchase($mysqli, $cid, 6, null, 0, $num);
+		add_purchase($mysqli, $cid, 7, "紅", 0, $num);
+		add_purchase($mysqli, $cid, 7, "藍", 0, $num);
+		$sub_id = null;
+	}
 	$insert = "";
 	if( $sub_id !== null ) {
 		if( is_array($sub_id) ) {

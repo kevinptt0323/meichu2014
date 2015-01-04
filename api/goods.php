@@ -11,6 +11,7 @@ else {
 	$data = $mysqli->query($query);
 	$ret["goods"] = array();
 	while( $row = $data->fetch_assoc() ) {
+		if( $row["amount"]<=0 ) continue;
 		if( $row["sub-id"] ) {
 			$tmp = @unserialize($row["src"]);
 			if( $tmp ) $row["src"] = $tmp;
@@ -21,8 +22,12 @@ else {
 	$data->free();
 
 	if( hideOrangeBlanket() ) {
-		$ret["goods"][2]["sub-id"][0] = array("黃");
-		$ret["goods"][7]["sub-id"][3] = array("黃");
+		foreach( $ret["goods"] as &$goods ) {
+			if( $goods["gid"]=="3" )
+				$goods["sub-id"][0] = array("黃");
+			else if( $goods["gid"]=="8" )
+				$goods["sub-id"][3] = array("黃");
+		}
 	}
 }
 echo json_encode($ret);
