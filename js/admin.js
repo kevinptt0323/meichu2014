@@ -66,7 +66,10 @@ admin.makeTable = function(q, opt) {
 
 		$table.append("<thead><tr>" + thead + "</tr></thead>");
 		data.forEach(function(elem) {
-			if( typeof opt !== "undefined" && elem["name"].search(opt)==-1 ) return;
+			if( typeof opt !== "undefined" && 
+				["name","studentID", "phone", "email"].filter( function(str) { return typeof elem[str] === "string" && elem[str].search(opt)!=-1; } ).length == 0
+			)
+				return;
 			var str = "";
 			for(key in elem) {
 				if( key!="purchase" )

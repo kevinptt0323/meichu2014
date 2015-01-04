@@ -31,7 +31,7 @@
 				<div class="right menu">
 					<span class="item">
 						<div class="ui inverted transparent icon input">
-							<input type="text" id="search" placeholder="搜尋姓名" autocomplete="off">
+							<input type="text" id="search" placeholder="姓名/學號/手機/e-mail" autocomplete="off">
 							<i class="search icon"></i>
 						</div>
 					</span>
