@@ -34,7 +34,7 @@ function hideOrangeBlanket() {
 		if( isset($purchase["sub-id"]) && $purchase["sub-id"]=="橘" )
 			$cnt++;
 	}
-	return $cnt>=100;
+	return $cnt>=0;
 }
 function getPurchaseGID($gid) {
 	global $mysqli;
