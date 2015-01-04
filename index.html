@@ -38,6 +38,7 @@
 						<div class="menu">
 							<a class="item" href="#store"> <i class="block layout icon"></i> 商品一覽 </a>
 							<a class="item" href="#store/1"> <i class="shop icon"></i> 購物車 </a>
+							<a class="item" href="#store/2"> <i class="search icon"></i> 訂單查詢 </a>
 						</div>
 					</div>
 				</div>
@@ -104,7 +105,7 @@
 					</div>
 					<div class="actions">
 						<span>請記得再次確認訂購商品的尺寸及顏色是否正確。</span>
-						<div class="ui positive button"> <i class="shop icon"></i> 結帳</div>
+						<div class="ui positive button" tabindex="5"> <i class="shop icon"></i> 結帳</div>
 					</div>
 				</div>
 				<div class="slide">
@@ -131,6 +132,39 @@
 							<div class="total ui large header"> 0 </div>
 							<div class="ui positive labeled icon large button checkout"> <i class="shop icon"></i> 結帳 </div>
 							<div class="ui negative labeled icon large button clear"> <i class="refresh icon"></i> 清空購物車 </div>
+						</div>
+					</div>
+				</div>
+				<div class="slide">
+					<div class="ui modal" id="query-window">
+						<div class="header"> 訂單查詢 </div>
+						<div class="content"> </div>
+						<div class="actions">
+							<div class="ui primary button"> 確定 </div>
+						</div>
+					</div>
+					<div id="query">
+						<div class="ui form">
+							<div class="fields">
+								<div class="six wide field">
+									<label>姓名</label>
+									<div class="ui labeled input">
+										<input name="name" class="name" placeholder="請輸入真實姓名" type="text" tabindex="6" autocomplete="off">
+										<div class="ui corner label"> <i class="asterisk icon"></i> </div>
+									</div>
+								</div>
+								<div class="six wide field">
+									<label>電話</label>
+									<div class="ui labeled input">
+										<input name="phone" class="phone" placeholder="請輸入電話" type="text" tabindex="7" autocomplete="off">
+										<div class="ui corner label"> <i class="asterisk icon"></i> </div>
+									</div>
+								</div>
+								<div class="four wide field">
+									<label>&nbsp;</label>
+									<div class="ui positive labeled icon button query" tabindex="8"> <i class="search icon"></i> 查詢 </div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

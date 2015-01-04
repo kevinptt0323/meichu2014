@@ -84,7 +84,6 @@ admin.makeTable = function(q, opt) {
 					});
 					str += "<td>" + purchases + "</td>"
 				}
-
 			}
 			str += "<td><a href='javascript:admin.pay(" + elem["cid"] + ")'><i class='dollar icon'></i></a></td><td><a href='javascript:admin.receive(" + elem["cid"] + ")'><i class='gift icon'></i></a></td><td><a href='javascript:admin.del(" + elem["cid"] + ")'><i class='remove icon'></i></a></td>";
 			$table.append("<tr>" + str + "</tr>");

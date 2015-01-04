@@ -1,7 +1,9 @@
 store = { };
 store.cart = { };
+store.query = { };
 store.init = function() {
 	this.initProducts();
+	this.query.init();
 	//this.initCookie();
 },
 store.initProducts = function() {
@@ -290,7 +292,7 @@ store.cart.checkout.show = function() {
 		.bind("click", this.send);
 },
 store.cart.checkout.send = function() {
-	if( !$("#checkout-window .form").form('validate form') ) {
+	if( !$("#checkout-window .form").form('Validate form') ) {
 		index.message.show("請務必輸入完整資料！");
 		return false;
 	}
@@ -331,5 +333,62 @@ store.cart.checkout.send = function() {
 			$("#checkout-window > .content > .ui.dimmer").removeClass("active");
 			$("#checkout-window .actions .positive.button").bind("click", store.cart.checkout.send);
 		}
+	});
+}
+
+store.query.init = function () {
+	$("#query > .ui.form").form({
+		name: { identifier: 'name', rules: [ { type: 'empty', } ] },
+		phone: { identifier: 'phone', rules: [ { type: 'empty', } ] }
+	});
+	$("#query .query.button").on('click', function() {
+		if( !$("#query > .ui.form").form('validate form') ) {
+			index.message.show("請務必輸入完整資料！");
+			return false;
+		}
+		$("#query-window").modal({transition: 'fade up'});
+		$.ajax({
+			type: "POST",
+			url: "api/query.php",
+			data: {name: $("#query > .form .name").val(), phone: $("#query > .form .phone").val()},
+			dataType: "json",
+			timeout: 10000,
+			success: function(b) {
+				var data = b;
+				if( data["errcode"] ) {
+					console.error(data["errcode"]);
+					index.message.show(data["msg"]);
+				}
+				else {
+					var $result = $("#query-window");
+					$result.find(".content").html("共查到 " + data["data"].length + "筆資料");
+					$table = $("<table></table>").addClass("ui striped compact collapsing table");
+					$table.html("<thead><tr><th>姓名</th><th>學號</th><th>電話</th><th>e-mail</th><th>總計</th><th>繳費時間</th><th>領貨時間</th><th>訂單內容</th></tr></thead>");
+					data["data"].forEach(function(elem) {
+						var str = "";
+						for(key in elem) {
+							if( key!="purchase" )
+								str += "<td>" + (elem[key]||"x") + "</td>"
+							else {
+								var purchases = "";
+								elem[key].forEach(function(item) {
+									for( key2 in item )
+										if( item[key2] )
+											purchases += item[key2] + " / ";
+									purchases = purchases.slice(0, -3) + "<br />";
+								});
+								str += "<td>" + purchases + "</td>"
+							}
+						}
+						$table.append("<tr>" + str + "</tr>");
+					});
+					$result.find(".content").append($table);
+					$result.modal('show');
+				}
+			},
+			error: function() {
+				index.message.show("伺服器發生錯誤，請稍後再試。");
+			},
+		});
 	});
 }

@@ -108,6 +108,12 @@ body.black #cart .grid .meta { color: #fff; color: rgba(255,255,255,.8); }
 #cart .actions .total:before { content:"總金額：$"; }
 #cart .actions .total { font-size: 20pt; }
 
+/* query */
+#query {
+	width: 1000px;
+	margin: auto;
+}
+
 /* activity */
 
 .activity.section .ui.header { font-size: 3rem; }
