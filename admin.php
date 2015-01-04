@@ -35,8 +35,10 @@
 							<i class="search icon"></i>
 						</div>
 					</span>
+					<!--
 					<span class="item">kevinptt，你好</span>
 					<a class="item" href="">登出</a>
+					-->
 				</div>
 			</div>
 			<div class="content"> </div>
