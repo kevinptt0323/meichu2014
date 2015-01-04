@@ -2,7 +2,11 @@
 require_once('../include/auth.php');
 session_start();
 
-if( isLogin() ) {
+if( 1 ) { // avoid hacking
+	$ret["errcode"] = 1;
+	$ret["msg"] = "為避免此頁面遭流出，目前功能為不開放狀態，請洽管理員。";
+}
+else if( isLogin() ) {
 	global $mysqli;
 	if( $mysqli->connect_error ) {
 		$ret["errcode"] = 1;
