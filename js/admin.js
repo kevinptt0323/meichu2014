@@ -1,9 +1,10 @@
 index = { }
 index.init = function() {
 	$("#global-message").modal({allowMultiple: true, transition: 'fade up'});
+	store.initProducts();
 	admin.init();
 }
-index.message = { };
+index.message = { }
 index.message.show = function(msg) {
 	console.log(msg);
 	var $obj = $("#global-message");
@@ -19,6 +20,29 @@ index.message.show = function(msg) {
 			$obj.modal("hide");
 			return false;
 		});
+}
+store = { };
+store.initProducts = function() {
+	var obj = this;
+	$.ajax({
+		dataType: "json",
+		url: "api/goods.php",
+		timeout: 10000,
+		success: function(b) {
+			var data = b;
+			if( data["errcode"] ) {
+				obj.data = [];
+				index.message.show(data["msg"]);
+			}
+			else {
+				obj.data = data["goods"];
+			}
+		},
+		error: function() {
+			obj.data = [];
+			index.message.show("資料讀取發生錯誤，請稍後再試。");
+		}
+	});
 }
 admin = { }
 admin.init = function() {
@@ -79,7 +103,7 @@ admin.makeTable = function(q, opt) {
 				else {
 					var purchases = "";
 					elem[key].forEach(function(item) {
-						purchases += item["name"] + " / " + (item["sub-id"]?item["sub-id"]+" / ":"") + item["num"] + "<br />";
+						purchases += store.data[parseInt(item["gid"])-1]["name"] + " / " + (item["sub-id"]?item["sub-id"]+" / ":"") + item["num"] + "<br />";
 						/*
 						for( key2 in item )
 							if( item[key2] )

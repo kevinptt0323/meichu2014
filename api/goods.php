@@ -11,7 +11,6 @@ else {
 	$data = $mysqli->query($query);
 	$ret["goods"] = array();
 	while( $row = $data->fetch_assoc() ) {
-		if( $row["amount"]<0 ) continue;
 		if( $row["sub-id"] ) {
 			$tmp = @unserialize($row["src"]);
 			if( $tmp ) $row["src"] = $tmp;

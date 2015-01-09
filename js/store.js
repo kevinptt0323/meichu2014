@@ -33,6 +33,7 @@ store.initProducts = function() {
 store.makeStore = function() {
 	var card = '<div class="card" data-gid="{{gid}}"> <div class="dimmable image"> <div class="ui dimmer"> <div class="content"> <div class="center"> <div class="ui inverted button view"><i class="zoom icon"></i>商品資訊</div> </div> </div> </div> <img src="{{src}}"> </div> <div class="content"> <a class="header">{{name}}</a> <div class="meta ui tag label price"> <span>{{price}}</span> <span class="special">{{special}}</span> </div> </div> </div>';
 	this.data.forEach(function(elem) {
+		if( elem.amount<0 ) return;
 		var newItem = card
 			.replace("{{name}}", elem.name)
 			.replace("{{gid}}", elem.gid)

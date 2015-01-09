@@ -39,48 +39,60 @@ function getCustomer() {
 	$query = "SELECT * FROM `Customer` ORDER BY cid ASC";
 	$result = $mysqli->query($query);
 	$array = getArray($result);
+	$result->free();
+
+	$query = "SELECT `cid`,`gid`,`sub-id`,`num` FROM `Purchase` ORDER BY cid ASC";
+	$result = $mysqli->query($query);
+	$purchases = getArray($result);
+	$result->free();
+
 	$goods_tmp = getGoods();
 	foreach( $goods_tmp as $elem )
 		$goods[$elem["gid"]] = $elem;
-	foreach( $array as &$customer )
-		$customer["purchase"] = getPurchaseCID($customer["cid"], $goods);
-	$result->free();
+
+	$i = 0;
+	$len = count($purchases);
+	foreach( $array as &$customer ) {
+		$customer["purchase"] = array();
+		//$customer["purchase"] = getPurchaseCID($customer["cid"], $goods);
+		while( $i < $len && $purchases[$i]["cid"] < $customer["cid"] ) ++$i;
+		while( $i < $len && $purchases[$i]["cid"] == $customer["cid"] ) {
+			array_push($customer["purchase"], $purchases[$i]);
+			++$i;
+		}
+	}
 	return $array;
 }
 function getSummary() {
 	$goods = getGoods();
 	$array = array();
 	foreach( $goods as $item ) {
-		$purchases = getPurchaseGID($item["gid"]);
 		$elem["gid"] = $item["gid"];
 		$elem["name"] = $item["name"];
 		$elem["cnt"] = array();
 		if( isset($item["sub-id"]) ) {
 			if( sizeof($item["sub-id"]) == 1 )
-				foreach( $item["sub-id"][0] as $sub_id )
-					$elem["cnt"][$sub_id] = 0;
+				foreach( $item["sub-id"][0] as $sub_id ) {
+					$elem["cnt"][$sub_id] = getCount($elem["gid"], $sub_id);
+				}
 			else if( sizeof($item["sub-id"])==2 )
 				foreach( $item["sub-id"][0] as $sub_id0 )
-					foreach( $item["sub-id"][1] as $sub_id1 )
-						$elem["cnt"][$sub_id0 . "-" . $sub_id1] = 0;
-			else $elem["cnt"][0] = 0;
+					foreach( $item["sub-id"][1] as $sub_id1 ) {
+						$elem["cnt"][$sub_id0 . "-" . $sub_id1] = getCount($elem["gid"], $sub_id0."-".$sub_id1);
+					}
+			else $elem["cnt"][0] = getCount($elem["gid"]);
 		}
-		else $elem["cnt"][0] = 0;
-		foreach( $purchases as $purchase ) {
-			if( isset($purchase["sub-id"]) )
-				$elem["cnt"][$purchase["sub-id"]] += $purchase["num"];
-			else
-				$elem["cnt"][0] += $purchase["num"];
-		}
+		else $elem["cnt"][0] = getCount($elem["gid"]);
 		array_push($array, $elem);
 	}
 	return $array;
 }
 function getGoods() {
 	global $mysqli;
-	$query = "SELECT * FROM `Goods` ORDER BY `gid` ASC";
+	$query = "SELECT `gid`,`name`,`sub-id` FROM `Goods` ORDER BY `gid` ASC";
 	$result = $mysqli->query($query);
 	$array = getArray($result);
+	$result->free();
 	foreach( $array as &$elem ) {
 		if( $elem["sub-id"] ) {
 			$tmp = @unserialize($elem["src"]);
@@ -88,27 +100,29 @@ function getGoods() {
 			$elem["sub-id"] = unserialize($elem["sub-id"]);
 		}
 	}
-	$result->free();
 	return $array;
 }
-function getPurchaseGID($gid) {
+function getCount($gid, $sub_id = "") {
 	global $mysqli;
-	$query = "SELECT * FROM `Purchase` WHERE `gid` = $gid";
+	if( $sub_id=="" )
+		$query = "SELECT SUM(`num`) FROM `Purchase` WHERE `gid` = $gid";
+	else
+		$query = "SELECT SUM(`num`) FROM `Purchase` WHERE `sub-id` = '$sub_id' AND `gid` = $gid";
 	$result = $mysqli->query($query);
-	$array = getArray($result);
+	$ans =  $result->fetch_assoc()['SUM(`num`)'];
 	$result->free();
-	return $array;
+	return $ans?$ans:0;
 }
 function getPurchaseCID(&$cid, &$goods) {
 	global $mysqli;
 	$query = "SELECT `gid`,`sub-id`,`num` FROM `Purchase` WHERE `cid` = $cid";
 	$result = $mysqli->query($query);
 	$array = getArray($result);
+	$result->free();
 	foreach( $array as &$elem ) {
 		$elem["name"] = $goods[$elem["gid"]]["name"];
 		unset($elem["gid"]);
 	}
-	$result->free();
 	return $array;
 }
 function getArray(&$mysql_query) {
