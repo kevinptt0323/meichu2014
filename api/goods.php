@@ -23,10 +23,19 @@ else {
 
 	if( hideOrangeBlanket() ) {
 		foreach( $ret["goods"] as &$goods ) {
-			if( $goods["gid"]=="3" )
+			if( $goods["gid"]=="1" ) {
+				array_splice($goods["sub-id"][1], 0, 1);
+				array_splice($goods["sub-id"][1], 7, 1);
+			}
+			else if( $goods["gid"]=="3" )
 				$goods["sub-id"][0] = array("黃");
-			else if( $goods["gid"]=="8" )
+			else if( $goods["gid"]=="8" ) {
 				$goods["sub-id"][3] = array("黃");
+			}
+			else if( $goods["gid"]=="9" ) {
+				array_splice($goods["sub-id"][1], 0, 1);
+				array_splice($goods["sub-id"][1], 7, 1);
+			}
 		}
 	}
 }
