@@ -77,10 +77,13 @@ admin.makeTable = function(q, opt) {
 				else {
 					var purchases = "";
 					elem[key].forEach(function(item) {
+						purchases += item["name"] + " / " + (item["sub-id"]?item["sub-id"]+" / ":"") + item["num"] + "<br />";
+						/*
 						for( key2 in item )
 							if( item[key2] )
 								purchases += item[key2] + " / ";
 						purchases = purchases.slice(0, -3) + "<br />";
+						*/
 					});
 					str += "<td>" + purchases + "</td>"
 				}

@@ -101,11 +101,12 @@ function getPurchaseGID($gid) {
 }
 function getPurchaseCID(&$cid, &$goods) {
 	global $mysqli;
-	$query = "SELECT * FROM `Purchase` WHERE `cid` = $cid";
+	$query = "SELECT `gid`,`sub-id`,`num` FROM `Purchase` WHERE `cid` = $cid";
 	$result = $mysqli->query($query);
 	$array = getArray($result);
 	foreach( $array as &$elem ) {
-		$elem = ["name" => $goods[$elem["gid"]]["name"], "sub-id" => $elem["sub-id"], "num" => $elem["num"] ];
+		$elem["name"] = $goods[$elem["gid"]]["name"];
+		unset($elem["gid"]);
 	}
 	$result->free();
 	return $array;
