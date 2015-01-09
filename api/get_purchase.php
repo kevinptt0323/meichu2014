@@ -10,8 +10,12 @@ if( isLogin() ) {
 	}
 	else {
 		$ret["errcode"] = 0;
-		if ( isset($_POST['cid']) )
-			$ret["data"]["purchase"] = getPurchaseCID($_POST['cid']);
+		if ( isset($_POST['cid']) ) {
+			$goods_tmp = getGoods();
+			foreach( $goods_tmp as $elem )
+				$goods[$elem["gid"]] = $elem;
+			$ret["data"]["purchase"] = getPurchaseCID($_POST['cid'], $goods);
+		}
 		else {
 			$ret["data"]["customer"] = getCustomer();
 			$ret["data"]["summary"] = getSummary();
@@ -35,8 +39,11 @@ function getCustomer() {
 	$query = "SELECT * FROM `Customer` ORDER BY cid ASC";
 	$result = $mysqli->query($query);
 	$array = getArray($result);
+	$goods_tmp = getGoods();
+	foreach( $goods_tmp as $elem )
+		$goods[$elem["gid"]] = $elem;
 	foreach( $array as &$customer )
-		$customer["purchase"] = getPurchaseCID($customer["cid"]);
+		$customer["purchase"] = getPurchaseCID($customer["cid"], $goods);
 	$result->free();
 	return $array;
 }
@@ -92,22 +99,18 @@ function getPurchaseGID($gid) {
 	$result->free();
 	return $array;
 }
-function getPurchaseCID($cid) {
+function getPurchaseCID(&$cid, &$goods) {
 	global $mysqli;
 	$query = "SELECT * FROM `Purchase` WHERE `cid` = $cid";
 	$result = $mysqli->query($query);
 	$array = getArray($result);
-	$goods_tmp = getGoods();
-	foreach( $goods_tmp as $elem ) {
-		$goods[$elem["gid"]] = $elem;
-	}
 	foreach( $array as &$elem ) {
 		$elem = ["name" => $goods[$elem["gid"]]["name"], "sub-id" => $elem["sub-id"], "num" => $elem["num"] ];
 	}
 	$result->free();
 	return $array;
 }
-function getArray($mysql_query) {
+function getArray(&$mysql_query) {
 	$ret = array();
 	while( $row = $mysql_query->fetch_assoc() )
 		array_push($ret, $row);
