@@ -56,7 +56,7 @@ admin.getData = function() {
 }
 admin.makeTable = function(q, opt) {
 	admin.query = q;
-	$table = $("<table></table>").addClass("ui striped compact collapsing table").attr("id", "#data");
+	$table = $("<table></table>").addClass("ui striped very compact collapsing table").attr("id", "#data");
 	var thead = "";
 	var data = this.data[q];
 	if( q=="customer" ) {
@@ -72,7 +72,9 @@ admin.makeTable = function(q, opt) {
 				return;
 			var str = "";
 			for(key in elem) {
-				if( key!="purchase" )
+				if( key=="email" )
+					str += "<td></td>";
+				else if( key!="purchase" )
 					str += "<td>" + (elem[key]||"x") + "</td>"
 				else {
 					var purchases = "";
@@ -88,7 +90,11 @@ admin.makeTable = function(q, opt) {
 					str += "<td>" + purchases + "</td>"
 				}
 			}
-			str += "<td><a href='javascript:admin.pay(" + elem["cid"] + ")'><i class='dollar icon'></i></a></td><td><a href='javascript:admin.receive(" + elem["cid"] + ")'><i class='gift icon'></i></a></td><td><a href='javascript:admin.del(" + elem["cid"] + ")'><i class='remove icon'></i></a></td>";
+			str += "<td>"
+				+ (elem["pay"]?"<i class='disabled dollar icon'></i>":"<a href='javascript:admin.pay("+elem["cid"]+")'><i class='dollar icon'></i></a>")
+				+ "</td><td>"
+				+ (elem["receive"]?"<i class='disabled gift icon'></i>":"<a href='javascript:admin.receive("+elem["cid"]+")'><i class='gift icon'></i></a>")
+				+ "</td><td><a href='javascript:admin.del(" + elem["cid"] + ")'><i class='remove icon'></i></a></td>";
 			$table.append("<tr>" + str + "</tr>");
 		});
 	}
