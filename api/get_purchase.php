@@ -68,9 +68,9 @@ function getSummary() {
 		else $elem["cnt"][0] = 0;
 		foreach( $purchases as $purchase ) {
 			if( isset($purchase["sub-id"]) )
-				$elem["cnt"][$purchase["sub-id"]]++;
+				$elem["cnt"][$purchase["sub-id"]] += $purchase["num"];
 			else
-				$elem["cnt"][0]++;
+				$elem["cnt"][0] += $purchase["num"];
 		}
 		array_push($array, $elem);
 	}
