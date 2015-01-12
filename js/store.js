@@ -162,7 +162,8 @@ store.cart.init = function() {
 
 	var obj = this;
 	$("#cart .actions .checkout.button").on("click", function() {
-		obj.checkout.show();
+		index.message.show("已不開放預購");
+		//obj.checkout.show();
 	});
 	$("#cart .actions .clear.button").on("click", function() {
 		obj.list = [];
