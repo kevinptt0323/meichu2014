@@ -105,11 +105,14 @@ function getGoods() {
 function getCount($gid, $sub_id = "") {
 	global $mysqli;
 	if( $sub_id=="" )
-		$query = "SELECT SUM(`num`) FROM `Purchase` WHERE `gid` = $gid";
+		$query = "SELECT SUM(P.num) FROM `Purchase` P inner join `Customer` C on P.cid = C.cid WHERE P.gid = $gid AND (C.pay is not null)";
+		//$query = "SELECT SUM(`num`) FROM `Purchase` WHERE `gid` = $gid";
 	else
-		$query = "SELECT SUM(`num`) FROM `Purchase` WHERE `sub-id` = '$sub_id' AND `gid` = $gid";
+		$query = "SELECT SUM(P.num) FROM `Purchase` P inner join `Customer` C on P.cid = C.cid WHERE P.`sub-id` = '$sub_id' AND P.gid = $gid AND (C.pay is not null)";
+		//$query = "SELECT SUM(`num`) FROM `Purchase` WHERE `sub-id` = '$sub_id' AND `gid` = $gid";
+	//SELECT P.* FROM `Purchase` P inner join `Customer` C on P.cid = C.cid WHERE P.gid = $gid AND (P.price = 0 OR C.pay is not null)
 	$result = $mysqli->query($query);
-	$ans =  $result->fetch_assoc()['SUM(`num`)'];
+	$ans =  $result->fetch_assoc()['SUM(P.num)'];
 	$result->free();
 	return $ans?$ans:0;
 }
