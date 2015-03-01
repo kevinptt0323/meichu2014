@@ -44,8 +44,8 @@ index.message.show = function(msg, allowMultiple) {
 fullpage.init = function(callback) {
 	$('#fullpage').fullpage({
 			//navigation
-			'anchors': ['index', 'activity', 'store'],
-			'sectionsColor': ['transparent','transparent', 'transparent'],
+			'anchors': ['index', 'activity', 'store', 'sponsors'],
+			'sectionsColor': ['transparent','transparent', 'transparent', 'transparent'],
 			//'sectionsColor': ['rgba(255, 255, 255, 0.6)','rgba(255, 255, 220, 0.6)', 'rgba(255, 220, 255, 0.6)'],
 			'scrollBar': true,
 

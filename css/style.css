@@ -118,3 +118,12 @@ body.black #cart .grid .meta { color: #fff; color: rgba(255,255,255,.8); }
 
 .activity.section .ui.header { font-size: 3rem; }
 .activity.section p { line-height: 170%; font-size: 1.3rem; }
+
+/* sponsors */
+.sponsors.section {
+	text-align: center;
+}
+.sponsors.section img {
+	margin: 5px;
+	height: 50px;
+}
