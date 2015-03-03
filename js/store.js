@@ -39,9 +39,10 @@ store.makeStore = function() {
 			.replace("{{gid}}", elem.gid)
 			.replace("{{src}}", (elem.src instanceof Array)?elem.src[0]:elem.src)
 			.replace("{{price}}", elem.price)
-			.replace("{{special}}", elem.special || "" )
+		  .replace("{{special}}", elem.special || "" )
 		$("#goods").append(newItem);
-		if( elem.special )
+		// no special price
+		if( 0 && elem.special )
 			$(".card:last-child .price").addClass("special");
 	})
 	$(".dimmable.image").dimmer({ on: "hover" });
@@ -73,7 +74,8 @@ store.view = function(gid) {
 			$gwindow.find(".price > span.special").html(elem.special || "");
 			$gwindow.find(".description.segment").html(elem.description || "");
 			$gwindow.find("#amount > div > .ui.input input").val(1);
-			if( elem.special )
+			// no special price
+			if( 0 && elem.special )
 				$gwindow.find(".price").addClass("special");
 			else
 				$gwindow.find(".price").removeClass("special");
