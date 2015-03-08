@@ -27,6 +27,7 @@
 		<div class="container" id="main">
 			<div class="nav ui secondary pointing inverted menu">
 				<a class="item" href="javascript:admin.makeTable('customer')">訂單列表</a>
+        <span class="item"> <input type="checkbox" id="only-show-not-received" checked> 僅顯示未領取 </span>
 				<a class="item" href="javascript:admin.makeTable('summary')">商品統計(僅統計已繳費)</a>
 				<div class="right menu">
 					<span class="item">

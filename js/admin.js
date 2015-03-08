@@ -54,6 +54,9 @@ admin.init = function() {
 		else
 			admin.makeTable("customer", $("#search").val());
 	});
+  $("#only-show-not-received").on('change', function() {
+    admin.makeTable(admin.query);
+  });
 }
 admin.getData = function() {
 	$.ajax({
@@ -94,6 +97,7 @@ admin.makeTable = function(q, opt) {
 				["name","studentID", "phone", "email"].filter( function(str) { return typeof elem[str] === "string" && elem[str].search(opt)!=-1; } ).length == 0
 			)
 				return;
+      if( $("#only-show-not-received").prop("checked") && elem["receive"] !== null ) return;
 			var str = "";
 			for(key in elem) {
 				if( key=="email" )
